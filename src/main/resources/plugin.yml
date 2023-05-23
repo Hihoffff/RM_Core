@@ -1,4 +1,5 @@
 name: RM_Core
-version: '${project.version}'
+version: '0.1'
 main: com.ruinsmc.RM_Core
 api-version: 1.18
+authors: [ hihoffff ]

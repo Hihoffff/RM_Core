@@ -37,14 +37,16 @@ public final class RM_Core extends JavaPlugin {
     }
     @Override
     public void onEnable() {
-
+        registerEvents();
         this.healthManager = new HealthMain(this);
         this.manaManager = new WisdomMain(this);
         this.savePlayerData = new savePlayerData(this);
         this.playerManager = new PlayerManager(this);
         this.skillsManager = new skillsManager(this);
         this.utils = new Utils(this);
+        instance = this;
         getLogger().info("RM_Skills enabled!");
+
 
     }
     public void registerEvents(){
