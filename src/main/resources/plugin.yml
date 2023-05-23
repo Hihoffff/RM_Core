@@ -1,0 +1,4 @@
+name: RM_Core
+version: '${project.version}'
+main: com.ruinsmc.RM_Core
+api-version: 1.18

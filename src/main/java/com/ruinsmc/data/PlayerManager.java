@@ -1,0 +1,36 @@
+package com.ruinsmc.data;
+
+import com.ruinsmc.RM_Core;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class PlayerManager {
+    private final RM_Core plugin;
+    private final ConcurrentHashMap<UUID,PlayerData> playerData;
+
+    public PlayerManager(RM_Core plugin){
+        this.plugin = plugin;
+        this.playerData = new ConcurrentHashMap<>();
+    }
+
+    public void addPlayerData(@NotNull PlayerData playerData){
+        this.playerData.put(playerData.getPlayer().getUniqueId(),playerData);
+    }
+    public void removePlayerData(UUID playerID){
+        this.playerData.remove(playerID);
+    }
+    @Nullable
+    public PlayerData getPlayerData(UUID playerID){
+        return this.playerData.get(playerID);
+    }
+
+    @Nullable
+    public ConcurrentHashMap<UUID, PlayerData> getPlayerDataMap() {
+        return playerData;
+    }
+
+
+}

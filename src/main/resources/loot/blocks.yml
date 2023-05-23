@@ -1,0 +1,26 @@
+list:
+  STONE:
+    id: STONE
+    skill: MINING
+    xp: 100
+    loot:
+      0:
+        id: COBBLESTONE
+        isCustom: false
+        weight: 100
+        minAmount: 5
+        maxAmount: 20
+      1:
+        id: STONE
+        isCustom: false
+        weight: 100
+        minAmount: 1
+        maxAmount: 5
+
+
+
+
+
+
+
+
