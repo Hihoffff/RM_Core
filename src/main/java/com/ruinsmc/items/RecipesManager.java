@@ -10,9 +10,7 @@ import org.bukkit.inventory.ShapedRecipe;
 
 import java.io.File;
 
-
 public class RecipesManager {
-
     private final RM_Core plugin;
     public RecipesManager(RM_Core plugin){
         this.plugin = plugin;

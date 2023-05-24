@@ -8,12 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ItemsManager {
     private final RM_Core plugin;
-    private final ItemsLoader itemsLoader;
     private final ConcurrentHashMap<String, ItemStack> ItemData; //all loaded items (id,ItemStack)
 
     public ItemsManager(RM_Core plugin){
         this.plugin = plugin;
-        this.itemsLoader = new ItemsLoader(plugin);
         this.ItemData = new ConcurrentHashMap<>();
     }
     @Nullable
@@ -24,7 +22,7 @@ public class ItemsManager {
     public void addItem(String id,ItemStack item){
         ItemData.put(id,item);
     }
-    @Nullable
+
     public ConcurrentHashMap<String, ItemStack> getItemDataList(){
         return ItemData;
     }

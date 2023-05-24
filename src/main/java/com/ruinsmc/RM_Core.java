@@ -7,6 +7,7 @@ import com.ruinsmc.data.loadPlayerData;
 import com.ruinsmc.data.savePlayerData;
 import com.ruinsmc.events.EntityDeathEvent;
 import com.ruinsmc.events.FoodLevelChanged;
+import com.ruinsmc.items.ItemsLoader;
 import com.ruinsmc.items.ItemsManager;
 import com.ruinsmc.items.RecipesManager;
 import com.ruinsmc.skills.farming.FarmingMain;
@@ -30,6 +31,7 @@ public final class RM_Core extends JavaPlugin {
     private HealthMain healthManager;
     private Utils utils;
     private ItemsManager itemsManager;
+    private ItemsLoader itemsLoader;
     private RecipesManager recipesManager;
     private WisdomMain manaManager;
     private savePlayerData savePlayerData;
@@ -42,16 +44,17 @@ public final class RM_Core extends JavaPlugin {
     @Override
     public void onEnable() {
         registerEvents();
+        this.recipesManager = new RecipesManager(this);
+        this.itemsManager = new ItemsManager(this);
+        this.itemsLoader = new ItemsLoader(this);
         this.healthManager = new HealthMain(this);
         this.manaManager = new WisdomMain(this);
         this.savePlayerData = new savePlayerData(this);
         this.playerManager = new PlayerManager(this);
         this.skillsManager = new skillsManager(this);
         this.utils = new Utils(this);
-        this.itemsManager = new ItemsManager(this);
-        this.recipesManager = new RecipesManager(this);
         instance = this;
-        getLogger().info("RM_Skills enabled!");
+        getLogger().info("RM_Core enabled!");
 
 
     }
@@ -83,7 +86,8 @@ public final class RM_Core extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        getItemsManager().getItemDataList().clear();
+        getLogger().info("RM_Core disabled!");
     }
     public PlayerManager getPlayerManager(){
         return playerManager;
