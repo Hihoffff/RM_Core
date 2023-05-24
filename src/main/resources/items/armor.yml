@@ -1,0 +1,33 @@
+items:
+  iron_boots:
+    id: iron_boots
+    material: IRON_BOOTS
+    type: armor
+    name: Железные Ботинки
+    rarity: COMMON
+    stats:
+      defense: 10
+  iron_leggings:
+    id: iron_leggings
+    material: IRON_LEGGINGS
+    type: armor
+    name: Железные Поножи
+    rarity: COMMON
+    stats:
+      defense: 20
+  iron_chestplate:
+    id: iron_chestplate
+    material: IRON_CHESTPLATE
+    type: armor
+    name: Железный Нагрудник
+    rarity: COMMON
+    stats:
+      defense: 30
+  iron_helmet:
+    id: iron_helmet
+    material: IRON_HELMET
+    type: armor
+    name: Железный Шлем
+    rarity: COMMON
+    stats:
+      defense: 10

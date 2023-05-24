@@ -1,0 +1,5 @@
+items:
+  green_gear:
+    name: Зелёная шестерня
+    id: green_gear
+    material: CACTUS_GREEN

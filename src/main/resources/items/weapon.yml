@@ -1,0 +1,52 @@
+items:
+  stone_sword:
+    id: stone_sword
+    material: STONE_SWORD
+    type: weapon
+    name: Каменный Меч
+    rarity: COMMON
+    stats:
+      damage: 3
+      strength: 4
+      critchance: 7
+  wooden_sword:
+    id: wooden_sword
+    material: WOODEN_SWORD
+    type: weapon
+    name: Деревянный Меч
+    rarity: COMMON
+    stats:
+      damage: 2
+      strength: 2
+      critchance: 4
+  train_sword:
+    id: train_sword
+    material: WOODEN_SWORD
+    type: weapon
+    name: Тренировочный Меч
+    rarity: COMMON
+    stats:
+      damage: 0
+      critchance: 100
+  iron_sword:
+    id: iron_sword
+    material: IRON_SWORD
+    type: weapon
+    name: Железный Меч
+    rarity: COMMON
+    stats:
+      damage: 5
+      strength: 4
+      critchance: 10
+  admin_sword:
+    id: admin_sword
+    material: DIAMOND_SWORD
+    type: weapon
+    name: Admin Sword
+    rarity: MYTHIC
+    stats:
+      damage: 9999
+      strength: 99999
+      critchance: 50
+      defense: 9999
+      health: 9999

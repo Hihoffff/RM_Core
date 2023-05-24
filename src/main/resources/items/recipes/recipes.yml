@@ -1,0 +1,7 @@
+recipes:
+  1:
+    item: iron_boots
+    recipe:
+      1: IRON_INGOT
+      2: IRON_INGOT
+      3: IRON_INGOT

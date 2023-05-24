@@ -7,6 +7,8 @@ import com.ruinsmc.data.loadPlayerData;
 import com.ruinsmc.data.savePlayerData;
 import com.ruinsmc.events.EntityDeathEvent;
 import com.ruinsmc.events.FoodLevelChanged;
+import com.ruinsmc.items.ItemsManager;
+import com.ruinsmc.items.RecipesManager;
 import com.ruinsmc.skills.farming.FarmingMain;
 import com.ruinsmc.skills.fishing.FishingMain;
 import com.ruinsmc.skills.foraging.ForagingMain;
@@ -27,6 +29,8 @@ public final class RM_Core extends JavaPlugin {
     private PlayerManager playerManager;
     private HealthMain healthManager;
     private Utils utils;
+    private ItemsManager itemsManager;
+    private RecipesManager recipesManager;
     private WisdomMain manaManager;
     private savePlayerData savePlayerData;
     private skillsManager skillsManager;
@@ -44,6 +48,8 @@ public final class RM_Core extends JavaPlugin {
         this.playerManager = new PlayerManager(this);
         this.skillsManager = new skillsManager(this);
         this.utils = new Utils(this);
+        this.itemsManager = new ItemsManager(this);
+        this.recipesManager = new RecipesManager(this);
         instance = this;
         getLogger().info("RM_Skills enabled!");
 
@@ -95,5 +101,6 @@ public final class RM_Core extends JavaPlugin {
         return manaManager;
     }
     public Utils getUtils(){return utils;}
-
+    public ItemsManager getItemsManager(){return itemsManager;}
+    public RecipesManager getRecipesManager(){return recipesManager;}
 }
