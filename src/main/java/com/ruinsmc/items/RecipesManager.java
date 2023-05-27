@@ -45,7 +45,6 @@ public class RecipesManager {
         if (!itemsDirectory.exists() || convertRecipes) {
             generateDefaultItemDataFile();
         }
-        plugin.getItemsManager().getItemDataList().clear();
         File[] files = itemsDirectory.listFiles();
         if (files == null) return;
         for (File itemsFile : files) {
@@ -73,7 +72,7 @@ public class RecipesManager {
                 continue;
             }
 
-            NamespacedKey key = new NamespacedKey(plugin,id);
+            NamespacedKey key = new NamespacedKey(plugin,curRecipeNum);
             ShapedRecipe recipe = new ShapedRecipe(key,item);
             recipe.shape("123","456","789");
             for(String curMaterialNum : file.getConfigurationSection(recipePath+"recipe").getKeys(false)){
@@ -83,7 +82,7 @@ public class RecipesManager {
                     recipe.setIngredient(curMaterialNum.toCharArray()[0],material);
                 }
                 else{
-                    plugin.getLogger().warning("(RecipesLoader) Material number "+curMaterialNum+"for recipe number "+curRecipeNum+" is not loaded!!!");
+                    plugin.getLogger().warning("(RecipesLoader) Material number "+curMaterialNum+" for recipe number "+curRecipeNum+" is not loaded!!!");
                     continue;
                 }
             }

@@ -22,10 +22,15 @@ public class ItemsManager {
     }
     public boolean addItem(String id,ItemStack item){
         if(item != null){
+            plugin.getLogger().info("(ItemsManager) Added item <"+id+"> with display name <"+item.getItemMeta().getDisplayName()+">.");
             ItemData.put(id,item);
             return true;
         }
-        else{return false;}
+        else
+        {
+            plugin.getLogger().warning("(ItemsManager) Item <"+id+"> is Null !!!");
+            return false;
+        }
     }
 
     public ConcurrentHashMap<String, ItemStack> getItemDataList(){

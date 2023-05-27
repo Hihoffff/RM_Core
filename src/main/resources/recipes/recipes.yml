@@ -1,5 +1,62 @@
 recipes:
-  1:
+  leather_boots-1:
+    item: leather_boots
+    custom: true
+    recipe:
+      1: LEATHER
+      3: LEATHER
+      4: LEATHER
+      6: LEATHER
+  leather_boots-2:
+    item: leather_boots
+    custom: true
+    recipe:
+      4: LEATHER
+      6: LEATHER
+      7: LEATHER
+      9: LEATHER
+  leather_helmet-1:
+    item: leather_helmet
+    custom: true
+    recipe:
+      1: LEATHER
+      2: LEATHER
+      3: LEATHER
+      4: LEATHER
+      6: LEATHER
+  leather_helmet-2:
+    item: leather_helmet
+    custom: true
+    recipe:
+      4: LEATHER
+      5: LEATHER
+      6: LEATHER
+      7: LEATHER
+      9: LEATHER
+  leather_leggings:
+    item: leather_leggings
+    custom: true
+    recipe:
+      1: LEATHER
+      2: LEATHER
+      3: LEATHER
+      4: LEATHER
+      6: LEATHER
+      7: LEATHER
+      9: LEATHER
+  leather_chestplate:
+    item: leather_chestplate
+    custom: true
+    recipe:
+      1: LEATHER
+      3: LEATHER
+      4: LEATHER
+      5: LEATHER
+      6: LEATHER
+      7: LEATHER
+      8: LEATHER
+      9: LEATHER
+  iron_boots-1:
     item: iron_boots
     custom: true
     recipe:
@@ -7,7 +64,7 @@ recipes:
       3: IRON_INGOT
       4: IRON_INGOT
       6: IRON_INGOT
-  2:
+  iron_boots-2:
     item: iron_boots
     custom: true
     recipe:
@@ -15,7 +72,7 @@ recipes:
       6: IRON_INGOT
       7: IRON_INGOT
       9: IRON_INGOT
-  3:
+  iron_helmet-1:
     item: iron_helmet
     custom: true
     recipe:
@@ -24,7 +81,7 @@ recipes:
       3: IRON_INGOT
       4: IRON_INGOT
       6: IRON_INGOT
-  4:
+  iron_helmet-2:
     item: iron_helmet
     custom: true
     recipe:
@@ -32,4 +89,27 @@ recipes:
       5: IRON_INGOT
       6: IRON_INGOT
       7: IRON_INGOT
+      9: IRON_INGOT
+  iron_leggings:
+    item: iron_leggings
+    custom: true
+    recipe:
+      1: IRON_INGOT
+      2: IRON_INGOT
+      3: IRON_INGOT
+      4: IRON_INGOT
+      6: IRON_INGOT
+      7: IRON_INGOT
+      9: IRON_INGOT
+  iron_chestplate:
+    item: iron_chestplate
+    custom: true
+    recipe:
+      1: IRON_INGOT
+      3: IRON_INGOT
+      4: IRON_INGOT
+      5: IRON_INGOT
+      6: IRON_INGOT
+      7: IRON_INGOT
+      8: IRON_INGOT
       9: IRON_INGOT

@@ -1,9 +1,41 @@
 items:
+  leather_boots:
+    id: leather_boots
+    material: LEATHER_BOOTS
+    type: armor
+    name: Кожаные ботинки
+    rarity: COMMON
+    stats:
+      defense: 1
+  leather_leggings:
+    id: leather_leggings
+    material: LEATHER_LEGGINGS
+    type: armor
+    name: Кожаные поножи
+    rarity: COMMON
+    stats:
+      defense: 2
+  leather_chestplate:
+    id: leather_chestplate
+    material: LEATHER_CHESTPLATE
+    type: armor
+    name: Кожаный нагрудник
+    rarity: COMMON
+    stats:
+      defense: 3
+  leather_helmet:
+    id: leather_helmet
+    material: LEATHER_HELMET
+    type: armor
+    name: Кожаный шлем
+    rarity: COMMON
+    stats:
+      defense: 1
   iron_boots:
     id: iron_boots
     material: IRON_BOOTS
     type: armor
-    name: Железные Ботинки
+    name: Железные ботинки
     rarity: COMMON
     stats:
       defense: 10
@@ -11,7 +43,7 @@ items:
     id: iron_leggings
     material: IRON_LEGGINGS
     type: armor
-    name: Железные Поножи
+    name: Железные поножи
     rarity: COMMON
     stats:
       defense: 20
@@ -19,7 +51,7 @@ items:
     id: iron_chestplate
     material: IRON_CHESTPLATE
     type: armor
-    name: Железный Нагрудник
+    name: Железный нагрудник
     rarity: COMMON
     stats:
       defense: 30
@@ -27,7 +59,7 @@ items:
     id: iron_helmet
     material: IRON_HELMET
     type: armor
-    name: Железный Шлем
+    name: Железный шлем
     rarity: COMMON
     stats:
       defense: 10
