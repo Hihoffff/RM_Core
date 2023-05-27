@@ -43,6 +43,7 @@ public final class RM_Core extends JavaPlugin {
     }
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         registerEvents();
         this.recipesManager = new RecipesManager(this);
         this.itemsManager = new ItemsManager(this);
@@ -86,7 +87,6 @@ public final class RM_Core extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getItemsManager().getItemDataList().clear();
         getLogger().info("RM_Core disabled!");
     }
     public PlayerManager getPlayerManager(){

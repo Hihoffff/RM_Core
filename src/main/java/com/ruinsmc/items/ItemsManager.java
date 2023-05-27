@@ -17,10 +17,15 @@ public class ItemsManager {
     @Nullable
     public ItemStack getItem(String id){
         ItemStack item = ItemData.get(id);
-        return item;
+        if(item != null){return item.clone();}
+        else{return null;}
     }
-    public void addItem(String id,ItemStack item){
-        ItemData.put(id,item);
+    public boolean addItem(String id,ItemStack item){
+        if(item != null){
+            ItemData.put(id,item);
+            return true;
+        }
+        else{return false;}
     }
 
     public ConcurrentHashMap<String, ItemStack> getItemDataList(){

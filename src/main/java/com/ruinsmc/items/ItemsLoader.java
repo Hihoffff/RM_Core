@@ -16,7 +16,6 @@ public class ItemsLoader {
     public ItemsLoader(RM_Core plugin){
         this.plugin = plugin;
         loadItemDataFile();
-        plugin.getRecipesManager().loadRecipes();
     }
 
     private void loadItemDataFile(){
@@ -38,7 +37,10 @@ public class ItemsLoader {
             loadItemsFromFile(YamlConfiguration.loadConfiguration(itemsFile),itemsFile.getName());
         }
 
+        plugin.getLogger().info("(ItemsLoader) Loaded "+plugin.getItemsManager().getItemDataList().size()+" custom Items!");
         plugin.getLogger().info("(ItemsLoader) ItemData loaded successfully!");
+        plugin.getRecipesManager().removeVanillaRecipes();
+        plugin.getRecipesManager().loadRecipes();
     }
 
     private void loadItemsFromFile(YamlConfiguration file,String fileName){
@@ -53,7 +55,10 @@ public class ItemsLoader {
             String rarity = file.getString(itemPath+"rarity");
             String type = file.getString(itemPath+"type");
 
-            if(material == null){return;}
+            if(material == null){
+                plugin.getLogger().warning("(ItemsLoader) Material for <"+id+"> is null !!!");
+                continue;
+            }
             ItemStack item = new ItemStack(material);
             NBTItem nbtitem = new NBTItem(item);
             List lore = new ArrayList();
@@ -76,7 +81,18 @@ public class ItemsLoader {
             meta.setUnbreakable(true);
 
             item.setItemMeta(meta);
-            plugin.getItemsManager().addItem(id,item);
+            if(item != null){
+                boolean isAdded = plugin.getItemsManager().addItem(id,item);
+                if(plugin.getItemsManager().getItem(id) != null && isAdded){
+                    plugin.getLogger().info("(ItemsLoader) Loaded <"+id+"> successfully!!!");
+                }
+                else{plugin.getLogger().warning("(ItemsLoader) Item <"+id+"> is null!!!");
+                    continue;}
+            }
+            else{
+                plugin.getLogger().warning("(ItemsLoader) Item <"+id+"> is null!!!");
+                continue;
+            }
         }
     }
     private void generateDefaultItemDataFile(){

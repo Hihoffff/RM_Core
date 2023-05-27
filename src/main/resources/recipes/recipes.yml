@@ -1,0 +1,35 @@
+recipes:
+  1:
+    item: iron_boots
+    custom: true
+    recipe:
+      1: IRON_INGOT
+      3: IRON_INGOT
+      4: IRON_INGOT
+      6: IRON_INGOT
+  2:
+    item: iron_boots
+    custom: true
+    recipe:
+      4: IRON_INGOT
+      6: IRON_INGOT
+      7: IRON_INGOT
+      9: IRON_INGOT
+  3:
+    item: iron_helmet
+    custom: true
+    recipe:
+      1: IRON_INGOT
+      2: IRON_INGOT
+      3: IRON_INGOT
+      4: IRON_INGOT
+      6: IRON_INGOT
+  4:
+    item: iron_helmet
+    custom: true
+    recipe:
+      4: IRON_INGOT
+      5: IRON_INGOT
+      6: IRON_INGOT
+      7: IRON_INGOT
+      9: IRON_INGOT
