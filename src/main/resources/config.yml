@@ -1,10 +1,4 @@
-storage:
-  usemysql: false
-  useymlfile: true
-  mysql:
-    username: ruinsmcrpg
-    password:
-    url:
+PlayerProfilesPath: /home/sftp_minecraft/RMTests/
 
 mining:
   STONE: 1
@@ -49,7 +43,7 @@ player:
   HealthUpdateDelay: 20
   AutoSaveDelay: 4800
 
-levelxp:
+XP_For_Level:
   1: 75
   2: 125
   3: 200
@@ -467,11 +461,11 @@ lvlrewards:
       oremultiplychance: 228
     58:
       defense: 96
-      oremultiplychance: 232
+      oremultiplychance: 234
     59:
       defense: 98
-      oremultiplychance: 236
+      oremultiplychance: 240
     60:
       defense: 100
-      oremultiplychance: 240
+      oremultiplychance: 250
 

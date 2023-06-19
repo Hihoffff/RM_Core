@@ -22,13 +22,19 @@ public class loadPlayerData implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                PlayerData playerData = new PlayerData(player,plugin);
-                Storage storage = new Storage("./"+player.getUniqueId()+"/"+"skills", plugin);
-                for(Skill skill : Skills.values()){
-                    playerData.setSkillXp(skill,storage.getConfig().getDouble("skills."+skill.name()+".xp"));
-                    playerData.setSkillLevel(skill,storage.getConfig().getInt("skills."+skill.name()+".lvl"));
+                try{
+                    PlayerData playerData = new PlayerData(player,plugin);
+                    Storage storage = new Storage("./"+player.getUniqueId()+"/"+"skills", plugin);
+                    for(Skill skill : Skills.values()){
+                        playerData.setSkillXp(skill,storage.getConfig().getDouble("skills."+skill.name()+".xp"));
+                        playerData.setSkillLevel(skill,storage.getConfig().getInt("skills."+skill.name()+".lvl"));
+                    }
+                    plugin.getPlayerManager().addPlayerData(playerData);
+                }catch (Exception ex) {
+                    ex.printStackTrace();
+                    player.sendMessage("Возникла непредвиденная ошибка во время загрузки данных");
                 }
-                plugin.getPlayerManager().addPlayerData(playerData);
+
             }
         }.runTaskAsynchronously(plugin);
     }

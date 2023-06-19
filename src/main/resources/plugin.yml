@@ -3,3 +3,5 @@ version: '0.1'
 main: com.ruinsmc.RM_Core
 api-version: 1.18
 authors: [ hihoffff ]
+depend:
+  - NBTAPI

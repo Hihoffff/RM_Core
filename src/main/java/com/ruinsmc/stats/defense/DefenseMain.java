@@ -22,7 +22,6 @@ public class DefenseMain implements Listener {
             Double damage = (e.getDamage() * (1f - damagereduction));
             plugin.getHealthManager().removeHealth(player,damage);
             e.setDamage(0);
-            plugin.getInstance().getLogger().info("Damage: "+damage);
         }
     }
 }

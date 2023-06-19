@@ -22,7 +22,7 @@ public class Storage {
         }
         this.FILENAME = filename;
         this.PLUGIN = instance;
-        this.FOLDER = new File(this.PLUGIN.getServer().getWorldContainer().getAbsolutePath()+"/player_profiles/");
+        this.FOLDER = new File(PLUGIN.getConfig().getString("PlayerProfilesPath")+"/player_profiles/");
         this.config = null;
         this.configFile = null;
         reload();

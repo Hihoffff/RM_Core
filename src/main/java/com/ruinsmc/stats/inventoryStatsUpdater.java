@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Locale;
 
@@ -20,13 +21,16 @@ public class inventoryStatsUpdater implements Listener {
     }
 
     public void updateInventoryStats(Player player){
-        PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
-        if(playerData == null) return;
-        for(Stat stat : Stats.values()){
-            Integer value = checkStat(player,stat.toString().toLowerCase(Locale.ROOT));
-            playerData.setInventoryStats(stat,(double) value);
-            //plugin.getLogger().info(stat+": "+value);
-        }
+        new BukkitRunnable(){
+            public void run(){
+                PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+                if(playerData == null) return;
+                for(Stat stat : Stats.values()){
+                    Integer value = checkStat(player,stat.toString().toLowerCase(Locale.ROOT));
+                    playerData.setInventoryStats(stat,(double) value);
+                }
+            }
+        }.runTaskAsynchronously(plugin);
     }
     private Integer checkStat(Player player,String statName){
         Integer value = 0;

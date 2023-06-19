@@ -35,9 +35,7 @@ public class XpGainEvent extends Event implements Cancellable{
         return amount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+    //public void setAmount(double amount) {this.amount = amount;}
 
     public boolean isCancelled() {
         return isCancelled;

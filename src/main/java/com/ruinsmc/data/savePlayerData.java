@@ -19,13 +19,17 @@ public class savePlayerData implements Listener {
         startAutoSave();
     }
     public void saveStorage(Player player){
-        PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
-        Storage storage = new Storage("./"+player.getUniqueId()+"/"+"skills", plugin);
-        for(Skill skill : Skills.values()){
-            storage.set("skills."+skill.name()+".xp",playerData.getSkillXp(skill));
-            storage.set("skills."+skill.name()+".lvl",playerData.getSkillLevel(skill));
+        try{
+            PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+            Storage storage = new Storage("./"+player.getUniqueId()+"/"+"skills", plugin);
+            for(Skill skill : Skills.values()){
+                storage.set("skills."+skill.name()+".xp",playerData.getSkillXp(skill));
+                storage.set("skills."+skill.name()+".lvl",playerData.getSkillLevel(skill));
+            }
+            storage.save();
+        }catch (Exception ex) {
+            ex.printStackTrace();
         }
-        storage.save();
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent e){
@@ -44,12 +48,9 @@ public class savePlayerData implements Listener {
                     if (playerData != null) {
                         plugin.getSavePlayerData().saveStorage(player);
                     }
-                    else{
-                        plugin.getLogger().info("{WARNING} [AutoSave] PlayerData of "+player.getName()+" = null!!!");
-                    }
                 }
             }
-        }.runTaskTimerAsynchronously(plugin, interval, interval);
+        }.runTaskTimer(plugin, interval, interval);
     }
 }
 

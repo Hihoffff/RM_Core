@@ -36,11 +36,12 @@ public class ActionBar implements Listener {
         sendXpActionBar(e.getPlayer(),e.getSkill(),e.getAmount());
     }
     public void startActionBarUpdate(){
+        Integer delay = plugin.getConfig().getInt("player.ActionBarDelay");
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
             for(Player player : Bukkit.getOnlinePlayers()){
                 sendActionBar(player);
             }
-        },1,plugin.getConfig().getInt("player.ActionBarDelay"));
+        },1,delay);
     }
 
     private void sendActionBar(Player player){ //sending action bar for every player
@@ -51,15 +52,16 @@ public class ActionBar implements Listener {
         int curMana = (int) plugin.getManaManager().getPlayerMana(player);
         int maxMana = (int) plugin.getManaManager().getPlayerMaxMana(player);
         String xpshow = HMXpAction.get(player.getUniqueId());
-        String text = new String(ChatColor.RED+""+curHealth+"/"+maxHealth+"❤"+"      "+ChatColor.YELLOW+""+xpshow+"      "+ChatColor.AQUA+""+curMana+"/"+maxMana+"◉");
+        String text = (ChatColor.RED+""+curHealth+"/"+maxHealth+"❤"+"      "+ChatColor.YELLOW+""+xpshow+"      "+ChatColor.AQUA+""+curMana+"/"+maxMana+"◉");
         player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(text));
         HMXpAction.put(player.getUniqueId(),"     "+ChatColor.GREEN+""+playerData.getStatLevel(Stats.DEFENSE)+"☗     ");
     }
 
-    private void sendXpActionBar(Player player, Skill skill, double adedXP){
-        double nextLvlXp = plugin.getConfig().getInt("levelxp."+(plugin.getPlayerManager().getPlayerData(player.getUniqueId()).getSkillLevel(skill)+1));
-        double curXp = plugin.getPlayerManager().getPlayerData(player.getUniqueId()).getSkillXp(skill);
-        int procent = (int) Math.floor(curXp/nextLvlXp*100);
+    private void sendXpActionBar(Player player, Skill skill, Double adedXP){
+        PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+        int nexLvLXp = plugin.getSkillsManager().getXPforLevel(playerData.getSkillLevel(skill)+1);
+        double curXp = playerData.getSkillXp(skill);
+        int procent = (int) Math.floor(curXp/nexLvLXp*100);
         HMXpAction.put(player.getUniqueId(),"+"+adedXP+" "+skill+" ❖("+procent+"%)❖");
     }
 }
