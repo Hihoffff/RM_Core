@@ -1,6 +1,5 @@
 package com.ruinsmc.customevents;
 
-
 import com.ruinsmc.skills.Skill;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

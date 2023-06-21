@@ -2,18 +2,18 @@ package com.ruinsmc;
 
 import com.ruinsmc.ActionBar.ActionBar;
 import com.ruinsmc.Utils.Utils;
+import com.ruinsmc.commands.adminCommands;
 import com.ruinsmc.data.PlayerManager;
 import com.ruinsmc.data.loadPlayerData;
 import com.ruinsmc.data.savePlayerData;
-import com.ruinsmc.events.EntityDeathEvent;
 import com.ruinsmc.events.FoodLevelChanged;
 import com.ruinsmc.items.ItemsLoader;
 import com.ruinsmc.items.ItemsManager;
 import com.ruinsmc.items.RecipesManager;
-import com.ruinsmc.skills.farming.FarmingMain;
+import com.ruinsmc.loot.LootLoader;
+import com.ruinsmc.loot.LootManager;
+import com.ruinsmc.loot.handlers.LootHandler;
 import com.ruinsmc.skills.fishing.FishingMain;
-import com.ruinsmc.skills.foraging.ForagingMain;
-import com.ruinsmc.skills.mining.MiningMain;
 import com.ruinsmc.skills.skillsManager;
 import com.ruinsmc.stats.defense.DefenseMain;
 import com.ruinsmc.stats.health.HealthMain;
@@ -36,6 +36,8 @@ public final class RM_Core extends JavaPlugin {
     private WisdomMain manaManager;
     private savePlayerData savePlayerData;
     private skillsManager skillsManager;
+    private LootManager lootManager;
+    private LootLoader lootLoader;
 
     private static RM_Core instance;
     public static RM_Core getInstance(){
@@ -45,6 +47,7 @@ public final class RM_Core extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         registerEvents();
+        registerCommands();
         this.recipesManager = new RecipesManager(this);
         this.itemsManager = new ItemsManager(this);
         this.itemsLoader = new ItemsLoader(this);
@@ -54,33 +57,39 @@ public final class RM_Core extends JavaPlugin {
         this.playerManager = new PlayerManager(this);
         this.skillsManager = new skillsManager(this);
         this.utils = new Utils(this);
+        this.lootManager = new LootManager(this);
+        this.lootLoader = new LootLoader(this);
+
         instance = this;
         getLogger().info("RM_Core enabled!");
 
 
     }
-    public void registerEvents(){
+    private void registerCommands(){
+        getLogger().info("Registering commands....");
+        this.getCommand("admin").setExecutor(new adminCommands(this));
+        getLogger().info("Commands registered!");
+    }
+    private void registerEvents(){
         getLogger().info("Registering events...");
         PluginManager pm = getServer().getPluginManager();
-        //pm.registerEvents(this,this);
+
+        //pm.registerEvents(new savePlayerInventory(this),this);
+        //pm.registerEvents(new loadPlayerInventory(this),this);
         pm.registerEvents(new savePlayerData(this),this);
-        pm.registerEvents(new skillsManager(this),this);
         pm.registerEvents(new loadPlayerData(this),this);
         pm.registerEvents(new ActionBar(this),this);
         pm.registerEvents(new inventoryStatsUpdater(this),this);
         pm.registerEvents(new toolStatsUpdater(this),this);
+        pm.registerEvents(new LootHandler(this),this);
 
-        pm.registerEvents(new MiningMain(this),this);
-        pm.registerEvents(new FarmingMain(this),this);
         pm.registerEvents(new FishingMain(this),this);
-        pm.registerEvents(new ForagingMain(this),this);
 
         pm.registerEvents(new DefenseMain(this),this);
         pm.registerEvents(new HealthMain(this),this);
         pm.registerEvents(new StrengthMain(this),this);
         pm.registerEvents(new RegenerationMain(this),this);
 
-        pm.registerEvents(new EntityDeathEvent(this),this);
         pm.registerEvents(new FoodLevelChanged(),this);
         getLogger().info("Events registered!");
     }
@@ -90,21 +99,22 @@ public final class RM_Core extends JavaPlugin {
         getLogger().info("RM_Core disabled!");
     }
     public PlayerManager getPlayerManager(){
-        return playerManager;
+        return this.playerManager;
     }
     public savePlayerData getSavePlayerData(){
-        return savePlayerData;
+        return this.savePlayerData;
     }
     public skillsManager getSkillsManager(){
-        return skillsManager;
+        return this.skillsManager;
     }
     public HealthMain getHealthManager(){
-        return healthManager;
+        return this.healthManager;
     }
     public WisdomMain getManaManager(){
-        return manaManager;
+        return this.manaManager;
     }
-    public Utils getUtils(){return utils;}
-    public ItemsManager getItemsManager(){return itemsManager;}
-    public RecipesManager getRecipesManager(){return recipesManager;}
+    public Utils getUtils(){return this.utils;}
+    public ItemsManager getItemsManager(){return this.itemsManager;}
+    public RecipesManager getRecipesManager(){return this.recipesManager;}
+    public LootManager getLootManager(){return this.lootManager;}
 }

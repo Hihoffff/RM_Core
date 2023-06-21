@@ -19,8 +19,7 @@ public class FishingMain implements Listener {
     @EventHandler
     void onPlayerFishing(PlayerFishEvent e){
         if(e.getCaught() instanceof Item){
-            XpGainEvent xpGainEvent = new XpGainEvent(e.getPlayer(), skill,10);
-            plugin.getServer().getPluginManager().callEvent(xpGainEvent);
+            plugin.getSkillsManager().addSkillXp(e.getPlayer(),skill,10);
         }
     }
 }

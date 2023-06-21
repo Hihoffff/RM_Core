@@ -1,0 +1,13 @@
+list:
+  ZOMBIE:
+    mobName: ZOMBIE
+    skill: COMBAT
+    skillXP: 10
+  SKELETON:
+    mobName: SKELETON
+    skill: COMBAT
+    skillXP: 15
+  CREEPER:
+    mobName: CREEPER
+    skill: COMBAT
+    skillXP: 25

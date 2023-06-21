@@ -29,7 +29,7 @@ public class PlayerData {
         this.skillLevels = new HashMap<>();
         this.inventoryStats = new HashMap<>();
         this.toolStats = new HashMap<>();
-        this.curMana = RM_Core.getInstance().getConfig().getDouble("player.baseMana");
+        this.curMana = plugin.getConfig().getDouble("player.baseMana");
     }
     public RM_Core getPlugin(){
         return plugin;

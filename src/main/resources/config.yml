@@ -1,41 +1,4 @@
 PlayerProfilesPath: /home/sftp_minecraft/RMTests/
-
-mining:
-  STONE: 1
-  COBBLESTONE: 1
-  GRANITE: 1.2
-  DIORITE: 1.2
-  ANDESITE: 1.2
-  COBBLED_DEEPSLATE: 2
-  COAL_ORE: 5
-  COPPER_ORE: 6
-  IRON_ORE: 6
-  GOLD_ORE: 8
-  GLOWSTONE: 9
-  LAPIS_ORE: 8
-  DIAMOND_ORE: 14
-  EMERALD_ORE: 12
-  ANCIENT_DEBRIS: 50
-  REDSTONE_ORE: 8
-  OBSIDIAN: 22
-  ICE: 0.3
-foraging:
-  OAK_LOG: 6
-  SPRUCE_LOG: 6
-  BIRCH_LOG: 6.5
-  JUNGLE_LOG: 7
-  ACACIA_LOG: 6
-  DARK_OAK_LOG: 6
-farmingcrops:
-  WHEAT: 4
-  POTATOES: 4
-  CARROTS: 4
-  BEETROOTS: 4
-farmingblocks:
-  SUGAR_CANE: 2.5
-  CACTUS: 2
-  MELON: 4
-  PUMPKIN: 5
 player:
   baseMana: 20
   baseHP: 20
@@ -104,6 +67,45 @@ XP_For_Level:
   58: 7000000
   59: 7250000
   60: 7500000
+
+mining:
+  STONE: 1
+  COBBLESTONE: 1
+  GRANITE: 1.2
+  DIORITE: 1.2
+  ANDESITE: 1.2
+  COBBLED_DEEPSLATE: 2
+  COAL_ORE: 5
+  COPPER_ORE: 6
+  IRON_ORE: 6
+  GOLD_ORE: 8
+  GLOWSTONE: 9
+  LAPIS_ORE: 8
+  DIAMOND_ORE: 14
+  EMERALD_ORE: 12
+  ANCIENT_DEBRIS: 50
+  REDSTONE_ORE: 8
+  OBSIDIAN: 22
+  ICE: 0.3
+foraging:
+  OAK_LOG: 6
+  SPRUCE_LOG: 6
+  BIRCH_LOG: 6.5
+  JUNGLE_LOG: 7
+  ACACIA_LOG: 6
+  DARK_OAK_LOG: 6
+farmingcrops:
+  WHEAT: 4
+  POTATOES: 4
+  CARROTS: 4
+  BEETROOTS: 4
+farmingblocks:
+  SUGAR_CANE: 2.5
+  CACTUS: 2
+  MELON: 4
+  PUMPKIN: 5
+
+
 
 lvlrewards:
   combat:

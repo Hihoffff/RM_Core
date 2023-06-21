@@ -1,8 +1,9 @@
 list:
+  #MINING
   STONE:
-    id: STONE
+    blockName: STONE
     skill: MINING
-    xp: 100
+    skillXP: 1.5
     loot:
       0:
         id: COBBLESTONE
@@ -16,9 +17,91 @@ list:
         weight: 100
         minAmount: 1
         maxAmount: 5
-
-
-
+  COBBLESTONE:
+    blockName: COBBLESTONE
+    skill: MINING
+    skillXP: 1
+  GRANITE:
+    blockName: GRANITE
+    skill: MINING
+    skillXP: 1.2
+  DIORITE:
+    blockName: DIORITE
+    skill: MINING
+    skillXP: 1.2
+  ANDESITE:
+    blockName: ANDESITE
+    skill: MINING
+    skillXP: 1.2
+  COAL_ORE:
+    blockName: COAL_ORE
+    skill: MINING
+    skillXP: 5
+  COPPER_ORE:
+    blockName: COPPER_ORE
+    skill: MINING
+    skillXP: 6
+  IRON_ORE:
+    blockName: IRON_ORE
+    skill: MINING
+    skillXP: 6
+  GOLD_ORE:
+    blockName: GOLD_ORE
+    skill: MINING
+    skillXP: 9
+  GLOWSTONE:
+    blockName: GLOWSTONE
+    skill: MINING
+    skillXP: 10
+  LAPIS_ORE:
+    blockName: LAPIS_ORE
+    skill: MINING
+    skillXP: 20
+  DIAMOND_ORE:
+    blockName: DIAMOND_ORE
+    skill: MINING
+    skillXP: 35
+  EMERALD_ORE:
+    blockName: EMERALD_ORE
+    skill: MINING
+    skillXP: 70
+  ANCIENT_DEBRIS:
+    blockName: ANCIENT_DEBRIS
+    skill: MINING
+    skillXP: 200
+  REDSTONE_ORE:
+    blockName: REDSTONE_ORE
+    skill: MINING
+    skillXP: 8
+  OBSIDIAN:
+    blockName: OBSIDIAN
+    skill: MINING
+    skillXP: 20
+  ICE:
+    blockName: ICE
+    skill: MINING
+    skillXP: 0.5
+  #FARMING
+  WHEAT:
+    blockName: WHEAT
+    skill: FARMING
+    skillXP: 4
+    isGrowable: true
+  POTATOES:
+    blockName: POTATOES
+    skill: FARMING
+    skillXP: 4
+    isGrowable: true
+  CARROTS:
+    blockName: CARROTS
+    skill: FARMING
+    skillXP: 4
+    isGrowable: true
+  BEETROOTS:
+    blockName: BEETROOTS
+    skill: FARMING
+    skillXP: 4
+    isGrowable: true
 
 
 

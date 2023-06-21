@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class skillsManager implements Listener {
+public class skillsManager {
 
     private final RM_Core plugin;
     private final Map<String, Skill> registeredSkills; //all registered skills
@@ -39,15 +39,6 @@ public class skillsManager implements Listener {
         }
     }
 
-    @EventHandler
-    public void onXpGainEvent(XpGainEvent e){
-        Player player = e.getPlayer();
-        Skill skill = e.getSkill();
-        double amount = e.getAmount();
-
-        addSkillXp(player,skill,amount);
-        CheckSkillLvl(player,skill);
-    }
     public void CheckSkillLvl(Player player, Skill skill){ //check if new lvl
         new BukkitRunnable(){
             @Override
@@ -66,10 +57,12 @@ public class skillsManager implements Listener {
     public Skill getRegisteredSkill(String name){
         return registeredSkills.get(name);
     }
-    private void addSkillXp(Player player,Skill skill,double amount){
+    public void addSkillXp(Player player,Skill skill,double amount){
         PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
         if(playerData != null){
-            plugin.getPlayerManager().getPlayerData(player.getUniqueId()).addSkillXp(skill,amount);
+            playerData.addSkillXp(skill,amount);
+            CheckSkillLvl(player,skill);
+            plugin.getServer().getPluginManager().callEvent(new XpGainEvent(player, skill,amount));
         }
     }
     public Integer getXPforLevel(Integer level){
