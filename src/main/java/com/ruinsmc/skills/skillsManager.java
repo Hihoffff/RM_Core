@@ -40,18 +40,13 @@ public class skillsManager {
     }
 
     public void CheckSkillLvl(Player player, Skill skill){ //check if new lvl
-        new BukkitRunnable(){
-            @Override
-            public void run(){
-                PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
-                if(playerData == null){return;}
-                double curXP = playerData.getSkillXp(skill);
-                while((curXP >= getXPforLevel(playerData.getSkillLevel(skill) + 1)) && (playerData.getSkillLevel(skill) < getMaxLevel())){
-                    playerData.setSkillLevel(skill,playerData.getSkillLevel(skill)+1);
-                    player.sendMessage("New lvl! "+skill+": "+(playerData.getSkillLevel(skill)));
-                }
-            }
-        }.runTaskAsynchronously(plugin);
+        PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+        if(playerData == null){return;}
+        double curXP = playerData.getSkillXp(skill);
+        while((curXP >= getXPforLevel(playerData.getSkillLevel(skill) + 1)) && (playerData.getSkillLevel(skill) < getMaxLevel())){
+            playerData.setSkillLevel(skill,playerData.getSkillLevel(skill)+1);
+            player.sendMessage("New lvl! "+skill+": "+(playerData.getSkillLevel(skill)));
+        }
     }
     @Nullable
     public Skill getRegisteredSkill(String name){
@@ -60,9 +55,10 @@ public class skillsManager {
     public void addSkillXp(Player player,Skill skill,double amount){
         PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
         if(playerData != null){
+            plugin.getActionBar().sendSkillXpToActionBar(player,skill,amount);
             playerData.addSkillXp(skill,amount);
             CheckSkillLvl(player,skill);
-            plugin.getServer().getPluginManager().callEvent(new XpGainEvent(player, skill,amount));
+            //plugin.getServer().getPluginManager().callEvent(new XpGainEvent(player, skill,amount));
         }
     }
     public Integer getXPforLevel(Integer level){

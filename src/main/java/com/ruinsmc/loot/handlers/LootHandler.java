@@ -4,10 +4,11 @@ package com.ruinsmc.loot.handlers;
 import com.ruinsmc.RM_Core;
 import com.ruinsmc.loot.BlockLoot;
 import com.ruinsmc.loot.MobLoot;
+import org.apache.commons.lang.SerializationUtils;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class LootHandler implements Listener {
     private final RM_Core plugin;
@@ -25,12 +27,16 @@ public class LootHandler implements Listener {
     @EventHandler
     public void onEntityDeath(org.bukkit.event.entity.EntityDeathEvent e){
         if(e.getEntity() instanceof Mob && e.getEntity().getKiller() instanceof Player){
-            Player player = e.getEntity().getKiller();
-            Mob mob = (Mob) e.getEntity();
-            if(player == null || mob == null){return;}
-            MobLoot mobLoot = plugin.getLootManager().getMobLoot(mob.getType().name());
-            if(mobLoot == null){return;}
-            plugin.getSkillsManager().addSkillXp(player, mobLoot.getSkill(), mobLoot.getSkillXP());
+            new BukkitRunnable(){
+                public void run(){
+                    Player player = e.getEntity().getKiller();
+                    Mob mob = (Mob) e.getEntity();
+                    if(player == null || mob == null){return;}
+                    MobLoot mobLoot = plugin.getLootManager().getMobLoot(mob.getType().name());
+                    if(mobLoot == null){return;}
+                    plugin.getSkillsManager().addSkillXp(player, mobLoot.getSkill(), mobLoot.getSkillXP());
+                }
+            }.runTaskAsynchronously(plugin);
         }
 
     }
@@ -38,22 +44,27 @@ public class LootHandler implements Listener {
     public void onBlockBreak(BlockBreakEvent e){
         Player player = e.getPlayer();
         Block block = e.getBlock();
-        if(player == null || block == null){return;}
         String blockName = block.getType().name();
-        BlockLoot blockLoot = plugin.getLootManager().getBlockLoot(blockName);
-        if(blockLoot == null){return;}
-        if(e.getBlock().getMetadata("p").isEmpty() || blockLoot.isBlockGrowable()) {
-            if(blockLoot.isBlockGrowable()){
-                if(!isPlantGrowFinished(block)){
-                    return;
+        boolean isBlockPlacedByPlayer = e.getBlock().getMetadata("p").isEmpty();
+        BlockData blockData = block.getBlockData().clone();
+        new BukkitRunnable(){
+            public void run(){
+                BlockLoot blockLoot = plugin.getLootManager().getBlockLoot(blockName);
+                if(blockLoot == null){return;}
+                if(isBlockPlacedByPlayer || blockLoot.isBlockGrowable()) {
+                    if(blockLoot.isBlockGrowable()){
+                        if(!isPlantGrowFinished(blockData)){
+                            return;
+                        }
+                    }
+                    plugin.getSkillsManager().addSkillXp(player, blockLoot.getSkill(), blockLoot.getSkillXP());
                 }
             }
-            plugin.getSkillsManager().addSkillXp(player, blockLoot.getSkill(), blockLoot.getSkillXP());
-        }
+        }.runTaskAsynchronously(plugin);
     }
-    private boolean isPlantGrowFinished(Block block){
+    private boolean isPlantGrowFinished(BlockData blockData){
         try {
-            Ageable age = (Ageable) block.getState().getBlockData();
+            Ageable age = (Ageable) blockData;
             if(age == null){return true;}
             if(age.getAge() == age.getMaximumAge()){
                 return true;

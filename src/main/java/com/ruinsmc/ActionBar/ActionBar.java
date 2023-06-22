@@ -1,7 +1,6 @@
 package com.ruinsmc.ActionBar;
 
 import com.ruinsmc.RM_Core;
-import com.ruinsmc.customevents.XpGainEvent;
 import com.ruinsmc.data.PlayerData;
 import com.ruinsmc.skills.Skill;
 import com.ruinsmc.stats.Stats;
@@ -30,11 +29,6 @@ public class ActionBar implements Listener {
         HMXpAction.remove(e.getPlayer().getUniqueId());
     }
 
-
-    @EventHandler
-    public void onXpGainEvent(XpGainEvent e){
-        sendXpActionBar(e.getPlayer(),e.getSkill(),e.getAmount());
-    }
     public void startActionBarUpdate(){
         Integer delay = plugin.getConfig().getInt("player.ActionBarDelay");
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
@@ -57,8 +51,9 @@ public class ActionBar implements Listener {
         HMXpAction.put(player.getUniqueId(),"     "+ChatColor.GREEN+""+playerData.getStatLevel(Stats.DEFENSE)+"☗     ");
     }
 
-    private void sendXpActionBar(Player player, Skill skill, Double adedXP){
+    public void sendSkillXpToActionBar(Player player, Skill skill, Double adedXP){
         PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+        if(playerData == null){return;}
         int nexLvLXp = plugin.getSkillsManager().getXPforLevel(playerData.getSkillLevel(skill)+1);
         double curXp = playerData.getSkillXp(skill);
         int procent = (int) Math.floor(curXp/nexLvLXp*100);

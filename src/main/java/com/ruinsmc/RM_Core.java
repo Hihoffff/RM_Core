@@ -29,20 +29,17 @@ public final class RM_Core extends JavaPlugin {
 
     private PlayerManager playerManager;
     private HealthMain healthManager;
+    private ActionBar actionBar;
     private Utils utils;
     private ItemsManager itemsManager;
     private ItemsLoader itemsLoader;
     private RecipesManager recipesManager;
     private WisdomMain manaManager;
-    private savePlayerData savePlayerData;
     private skillsManager skillsManager;
     private LootManager lootManager;
     private LootLoader lootLoader;
 
-    private static RM_Core instance;
-    public static RM_Core getInstance(){
-        return instance;
-    }
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
@@ -53,14 +50,12 @@ public final class RM_Core extends JavaPlugin {
         this.itemsLoader = new ItemsLoader(this);
         this.healthManager = new HealthMain(this);
         this.manaManager = new WisdomMain(this);
-        this.savePlayerData = new savePlayerData(this);
         this.playerManager = new PlayerManager(this);
         this.skillsManager = new skillsManager(this);
         this.utils = new Utils(this);
         this.lootManager = new LootManager(this);
         this.lootLoader = new LootLoader(this);
-
-        instance = this;
+        this.actionBar = new ActionBar(this);
         getLogger().info("RM_Core enabled!");
 
 
@@ -101,9 +96,6 @@ public final class RM_Core extends JavaPlugin {
     public PlayerManager getPlayerManager(){
         return this.playerManager;
     }
-    public savePlayerData getSavePlayerData(){
-        return this.savePlayerData;
-    }
     public skillsManager getSkillsManager(){
         return this.skillsManager;
     }
@@ -117,4 +109,5 @@ public final class RM_Core extends JavaPlugin {
     public ItemsManager getItemsManager(){return this.itemsManager;}
     public RecipesManager getRecipesManager(){return this.recipesManager;}
     public LootManager getLootManager(){return this.lootManager;}
+    public ActionBar getActionBar(){return this.actionBar;}
 }

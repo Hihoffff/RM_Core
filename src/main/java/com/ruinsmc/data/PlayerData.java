@@ -43,10 +43,10 @@ public class PlayerData {
     public int getSkillLevel(Skill skill){
         return skillLevels.getOrDefault(skill,0);
     }
-    public void addSkillXp(Skill skill, double amount) {
+    public void addSkillXp(Skill skill, Double amount) {
         skillXp.merge(skill, amount, Double::sum);
     }
-    public void setSkillXp(Skill skill, double amount) {
+    public void setSkillXp(Skill skill, Double amount) {
         skillXp.put(skill,amount);
     }
     public void setSkillLevel(Skill skill, Integer amount) {

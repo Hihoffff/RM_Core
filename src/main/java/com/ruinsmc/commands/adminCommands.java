@@ -25,7 +25,8 @@ public class adminCommands implements CommandExecutor {
                             ItemStack item = plugin.getItemsManager().getItem(itemID);
                             if(item != null && player != null){
                                 player.getInventory().addItem(item);
-                                player.sendMessage(ChatColor.GREEN+"(AdminCommand) Выдан предмет "+item.getItemMeta().displayName());
+                                player.sendMessage(ChatColor.GREEN+"(AdminCommand) Выдан предмет "+itemID);
+                                return true;
                             }
                             return false;
                         }

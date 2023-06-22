@@ -5,7 +5,7 @@ import com.ruinsmc.skills.Skill;
 public class MobLoot {
     private final String mobName;
     private final Skill skill;
-    private final Double skillXP;
+    private final double skillXP;
     private final LootStack lootStack;
 
     public MobLoot(String mobName,Skill skill,Double skillXP,LootStack lootStack){
@@ -14,7 +14,7 @@ public class MobLoot {
         this.skillXP = skillXP;
         this.lootStack = lootStack;
     }
-    public Double getSkillXP(){
+    public double getSkillXP(){
         return this.skillXP;
     }
     public Skill getSkill(){

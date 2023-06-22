@@ -9,11 +9,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerManager {
     private final RM_Core plugin;
+    private final savePlayerData savePlayerData;
     private final ConcurrentHashMap<UUID,PlayerData> playerData;
 
     public PlayerManager(RM_Core plugin){
         this.plugin = plugin;
         this.playerData = new ConcurrentHashMap<>();
+        this.savePlayerData = new savePlayerData(plugin);
     }
 
     public void addPlayerData(@NotNull PlayerData playerData){
@@ -32,5 +34,8 @@ public class PlayerManager {
         return playerData;
     }
 
+    public void savePlayerData(UUID playerUUID){
+        this.savePlayerData.saveStorage(playerUUID);
+    }
 
 }

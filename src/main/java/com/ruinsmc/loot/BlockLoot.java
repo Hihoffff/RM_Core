@@ -5,9 +5,9 @@ import com.ruinsmc.skills.Skill;
 public class BlockLoot {
     private final String blockName;
     private final Skill skill;
-    private final Double skillXP;
+    private final double skillXP;
     private final LootStack lootStack;
-    private Boolean isGrowable;
+    private boolean isGrowable;
 
     public BlockLoot(String blockName,Skill skill,Double skillXP,LootStack lootStack){
         this.blockName = blockName;
@@ -16,7 +16,7 @@ public class BlockLoot {
         this.lootStack = lootStack;
         this.isGrowable = false;
     }
-    public Double getSkillXP(){
+    public double getSkillXP(){
         return this.skillXP;
     }
     public Skill getSkill(){
@@ -29,5 +29,5 @@ public class BlockLoot {
         return this.lootStack;
     }
     public void setBlockGrowable(Boolean isGrowable){this.isGrowable = isGrowable;}
-    public Boolean isBlockGrowable(){return this.isGrowable;}
+    public boolean isBlockGrowable(){return this.isGrowable;}
 }
