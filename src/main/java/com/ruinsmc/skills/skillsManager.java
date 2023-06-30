@@ -1,14 +1,10 @@
 package com.ruinsmc.skills;
 
 import com.ruinsmc.RM_Core;
-import com.ruinsmc.customevents.XpGainEvent;
 import com.ruinsmc.data.PlayerData;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -45,6 +41,7 @@ public class skillsManager {
         double curXP = playerData.getSkillXp(skill);
         while((curXP >= getXPforLevel(playerData.getSkillLevel(skill) + 1)) && (playerData.getSkillLevel(skill) < getMaxLevel())){
             playerData.setSkillLevel(skill,playerData.getSkillLevel(skill)+1);
+            plugin.getCharacterStatsManager().updatePlayerCharacterStats(player);
             player.sendMessage("New lvl! "+skill+": "+(playerData.getSkillLevel(skill)));
         }
     }

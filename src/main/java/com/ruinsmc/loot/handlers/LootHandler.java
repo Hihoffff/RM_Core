@@ -4,7 +4,6 @@ package com.ruinsmc.loot.handlers;
 import com.ruinsmc.RM_Core;
 import com.ruinsmc.loot.BlockLoot;
 import com.ruinsmc.loot.MobLoot;
-import org.apache.commons.lang.SerializationUtils;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;

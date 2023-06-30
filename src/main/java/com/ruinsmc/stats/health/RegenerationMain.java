@@ -20,6 +20,7 @@ public class RegenerationMain implements Listener {
         if(e.getEntity() instanceof Player){
             Player player = (Player) e.getEntity();
             PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+            if(playerData == null){return;}
             Double healthRegen = playerData.getStatLevel(Stats.REGENERATION);
             Double maxHealth = plugin.getHealthManager().getMaxHealth(player);
             Double regenValue = ((maxHealth/100)+1.5)*((healthRegen+100)/100);

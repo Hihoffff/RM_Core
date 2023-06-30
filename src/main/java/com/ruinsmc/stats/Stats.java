@@ -8,7 +8,5 @@ public enum Stats implements Stat{
     HEALTH,
     REGENERATION,
     LUCK,
-    OREMULTIPLYCHANCE,
-    LOGMULTIPLYCHANCE,
 
 }

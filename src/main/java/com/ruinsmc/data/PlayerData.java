@@ -3,22 +3,24 @@ package com.ruinsmc.data;
 import com.ruinsmc.RM_Core;
 
 import com.ruinsmc.skills.Skill;
+import com.ruinsmc.stats.CharacterStatsManager;
 import com.ruinsmc.stats.Stat;
+import com.ruinsmc.stats.Stats;
 import org.bukkit.entity.Player;
 import java.util.HashMap;
-import java.util.Map;
 
 
 public class PlayerData {
     private final Player player;
     private final RM_Core plugin;
 
-    private final Map<Skill, Double> skillXp;
-    private final Map<Skill, Integer> skillLevels;
+    private final HashMap<Skill, Double> skillXp;
+    private final HashMap<Skill, Integer> skillLevels;
 
     //Player stats
-    private final Map<Stat, Double> inventoryStats;
-    private final Map<Stat,Double> toolStats;
+    private final HashMap<Stat, Double> inventoryStats;
+    private final HashMap<Stat,Double> toolStats;
+    private final  HashMap<Stat,Double> characterStats;
     private double curMana;
 
 
@@ -30,6 +32,7 @@ public class PlayerData {
         this.inventoryStats = new HashMap<>();
         this.toolStats = new HashMap<>();
         this.curMana = plugin.getConfig().getDouble("player.baseMana");
+        this.characterStats = new HashMap<>();
     }
     public RM_Core getPlugin(){
         return plugin;
@@ -38,7 +41,7 @@ public class PlayerData {
         return player;
     }
     public double getSkillXp(Skill skill){
-        return skillXp.getOrDefault(skill,0.0);
+        return skillXp.getOrDefault(skill,0.0d);
     }
     public int getSkillLevel(Skill skill){
         return skillLevels.getOrDefault(skill,0);
@@ -53,7 +56,7 @@ public class PlayerData {
         skillLevels.put(skill,amount);
     }
     public double getStatLevel(Stat stat) {
-        return inventoryStats.getOrDefault(stat, 0.0) + toolStats.getOrDefault(stat,0.0);
+        return inventoryStats.getOrDefault(stat, 0.0d) + toolStats.getOrDefault(stat,0.0d) + characterStats.getOrDefault(stat,0.0d);
     }
 
     public void setInventoryStats(Stat stat,Double amount){
@@ -62,6 +65,7 @@ public class PlayerData {
     public void setToolStats(Stat stat,Double amount){
         toolStats.put(stat,amount);
     }
+    public void setCharacterStat(Stat stat, Double amount){characterStats.put(stat,amount);}
     public double getMana(){
         return curMana;
     }

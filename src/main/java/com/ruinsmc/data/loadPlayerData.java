@@ -32,6 +32,7 @@ public class loadPlayerData implements Listener {
                         playerData.setSkillLevel(skill,storage.getConfig().getInt("skills."+skill.name()+".lvl"));
                     }
                     plugin.getPlayerManager().addPlayerData(playerData);
+                    plugin.getCharacterStatsManager().updatePlayerCharacterStats(player);
                 }catch (Exception ex) {
                     ex.printStackTrace();
                     player.sendMessage(ChatColor.RED+"Возникла непредвиденная ошибка во время загрузки данных. Перезайдите на сервер.");

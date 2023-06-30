@@ -1,38 +1,44 @@
 package com.ruinsmc.stats;
 
-import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import com.ruinsmc.RM_Core;
 import com.ruinsmc.data.PlayerData;
 import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Locale;
 
-public class inventoryStatsUpdater implements Listener {
+public class InventoryStatsManager {
     private final RM_Core plugin;
-    public inventoryStatsUpdater(RM_Core plugin){
+    public InventoryStatsManager(RM_Core plugin){
         this.plugin = plugin;
     }
 
-    public void updateInventoryStats(Player player){
+    public void updatePlayerArmorStats(Player player){ //updates armor stats
         new BukkitRunnable(){
             public void run(){
                 PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
-                if(playerData == null) return;
+                if(playerData == null || !player.isOnline()) return;
                 for(Stat stat : Stats.values()){
-                    Integer value = checkStat(player,stat.toString().toLowerCase(Locale.ROOT));
+                    Integer value = checkArmorStat(player,stat.toString().toLowerCase(Locale.ROOT));
                     playerData.setInventoryStats(stat,(double) value);
                 }
             }
         }.runTaskAsynchronously(plugin);
     }
-    private Integer checkStat(Player player,String statName){
+
+    public void updatePlayerMainHandToolStats(Player player,ItemStack item){ //updates stats of tool in main hand
+        PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+        if(playerData == null || !player.isOnline()) return;
+        for(Stat stat : Stats.values()){
+            Integer value = checkItemStats(item,stat.toString().toLowerCase(Locale.ROOT));
+            playerData.setToolStats(stat,(double) value);
+        }
+    }
+
+    private Integer checkArmorStat(Player player,String statName){
         Integer value = 0;
         value += checkItemStats(player.getInventory().getBoots(),statName);
         value += checkItemStats(player.getInventory().getHelmet(),statName);
@@ -48,14 +54,5 @@ public class inventoryStatsUpdater implements Listener {
         if(nbtitem.hasKey(statName)){value = nbtitem.getInteger(statName);}
         return value;
     }
-    @EventHandler
-    public void onPlayerUpdatedArmor(PlayerArmorChangeEvent e){
-        updateInventoryStats(e.getPlayer());
-    }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e){
-        Player player = e.getPlayer();
-        updateInventoryStats(player);
-    }
 }
