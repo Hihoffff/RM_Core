@@ -55,7 +55,7 @@ public class ActionBar implements Listener {
     public void sendSkillXpToActionBar(Player player, Skill skill, Double adedXP){
         PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
         if(playerData == null){return;}
-        int nexLvLXp = plugin.getSkillsManager().getXPforLevel(playerData.getSkillLevel(skill)+1);
+        double nexLvLXp = plugin.getSkillsManager().getXPforLevel(playerData.getSkillLevel(skill)+1);
         double curXp = playerData.getSkillXp(skill);
         int procent = (int) Math.floor(curXp/nexLvLXp*100);
         HMXpAction.put(player.getUniqueId(),"+"+adedXP+" "+skill+" ❖("+procent+"%)❖");

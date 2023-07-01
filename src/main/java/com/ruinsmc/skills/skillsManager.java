@@ -38,11 +38,10 @@ public class skillsManager {
     public void CheckSkillLvl(Player player, Skill skill){ //check if new lvl
         PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
         if(playerData == null){return;}
-        double curXP = playerData.getSkillXp(skill);
-        while((curXP >= getXPforLevel(playerData.getSkillLevel(skill) + 1)) && (playerData.getSkillLevel(skill) < getMaxLevel())){
+        while((playerData.getSkillXp(skill) >= getXPforLevel(playerData.getSkillLevel(skill) + 1)) && (playerData.getSkillLevel(skill) < getMaxLevel())){
             playerData.setSkillLevel(skill,playerData.getSkillLevel(skill)+1);
-            plugin.getCharacterStatsManager().updatePlayerCharacterStats(player);
             player.sendMessage("New lvl! "+skill+": "+(playerData.getSkillLevel(skill)));
+            plugin.getCharacterStatsManager().updatePlayerCharacterStats(player);
         }
     }
     @Nullable
@@ -58,9 +57,9 @@ public class skillsManager {
             //plugin.getServer().getPluginManager().callEvent(new XpGainEvent(player, skill,amount));
         }
     }
-    public Integer getXPforLevel(Integer level){
+    public double getXPforLevel(Integer level){
         if(level > getMaxLevel()){
-            return 999999999;
+            return 999999999999999999999999999999999999999999999999d;
         }
         return this.XPforLevel[level-1];
     }

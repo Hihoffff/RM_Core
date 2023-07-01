@@ -12,6 +12,7 @@ import com.ruinsmc.items.ItemsManager;
 import com.ruinsmc.items.RecipesManager;
 import com.ruinsmc.loot.LootLoader;
 import com.ruinsmc.loot.LootManager;
+import com.ruinsmc.loot.handlers.LootHandler;
 import com.ruinsmc.skills.fishing.FishingMain;
 import com.ruinsmc.skills.skillsManager;
 import com.ruinsmc.stats.CharacterStatsManager;
@@ -46,7 +47,6 @@ public final class RM_Core extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         registerEvents();
-        registerCommands();
         this.recipesManager = new RecipesManager(this);
         this.itemsManager = new ItemsManager(this);
         this.itemsLoader = new ItemsLoader(this);
@@ -54,12 +54,14 @@ public final class RM_Core extends JavaPlugin {
         this.manaManager = new WisdomMain(this);
         this.playerManager = new PlayerManager(this);
         this.skillsManager = new skillsManager(this);
-        this.characterStatsManager = new CharacterStatsManager(this);
         this.inventoryStatsManager = new InventoryStatsManager(this);
         this.utils = new Utils(this);
         this.lootManager = new LootManager(this);
         this.lootLoader = new LootLoader(this);
         this.actionBar = new ActionBar(this);
+        this.characterStatsManager = new CharacterStatsManager(this);
+
+        registerCommands();
         getLogger().info("RM_Core enabled!");
 
 
@@ -79,6 +81,7 @@ public final class RM_Core extends JavaPlugin {
         pm.registerEvents(new loadPlayerData(this),this);
         pm.registerEvents(new ActionBar(this),this);
         pm.registerEvents(new StatsHandler(this),this);
+        pm.registerEvents(new LootHandler(this),this);
 
         pm.registerEvents(new FishingMain(this),this);
 
@@ -112,10 +115,6 @@ public final class RM_Core extends JavaPlugin {
     public RecipesManager getRecipesManager(){return this.recipesManager;}
     public LootManager getLootManager(){return this.lootManager;}
     public ActionBar getActionBar(){return this.actionBar;}
-    public InventoryStatsManager getInventoryStatsManager(){
-        return this.inventoryStatsManager;
-    }
-    public CharacterStatsManager getCharacterStatsManager(){
-        return this.characterStatsManager;
-    }
+    public InventoryStatsManager getInventoryStatsManager(){return this.inventoryStatsManager;}
+    public CharacterStatsManager getCharacterStatsManager(){return this.characterStatsManager;}
 }

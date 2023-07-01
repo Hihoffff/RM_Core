@@ -61,7 +61,7 @@ public class CharacterStatsManager {
                         Double statCount = config.getDouble("SkillLvlRewards."+skillName+"."+range+"."+statName);
                         if(statCount == null){plugin.getLogger().warning("(CharacterStatsManager) Stat "+statName+" in range "+range+" in skill "+skillName+" is null!"); ;continue;}
                         double previousCount = skillLevelStats[lvl-1].getStat(stat);
-                        skillLevelStats[lvl - 1].setStat(stat,previousCount + statCount);
+                        skillLevelStats[lvl-1].setStat(stat,previousCount + statCount);
                     }
                 }
 
@@ -70,18 +70,16 @@ public class CharacterStatsManager {
         }
         for(Skill skill : Skills.values()){
             SkillLevelStats[] skillLevelStats = new SkillLevelStats[maxLvl];
-
             for(int lvl = 1; lvl <= maxLvl;lvl++){
                 if(lvl== 1){
-                    skillLevelStats[lvl-1] = new SkillLevelStats(skill,SkillLvlCharacterStatsPerLvl.get(skill)[lvl-1].getStats());
-                    plugin.getLogger().info(""+SkillLvlCharacterStatsPerLvl.get(skill)[lvl-1].getStats().toString());
+                    skillLevelStats[0] = new SkillLevelStats(skill,SkillLvlCharacterStatsPerLvl.get(skill)[0].getStats());
                     continue;
                 }
-                HashMap<Stat,Double> previousStats = SkillLvlCharacterStats.get(skill)[lvl-2].getStats();
+                HashMap<Stat,Double> curStats = new HashMap<>();
                 for(Stat stat : Stats.values()){
-                    previousStats.put(stat,previousStats.getOrDefault(stat,0.0)+SkillLvlCharacterStatsPerLvl.get(skill)[lvl-1].getStat(stat));
+                    curStats.put(stat,skillLevelStats[lvl-2].getStat(stat)+SkillLvlCharacterStatsPerLvl.get(skill)[lvl-1].getStat(stat));
                 }
-                skillLevelStats[lvl-1] = new SkillLevelStats(skill,previousStats);
+                skillLevelStats[lvl-1] = new SkillLevelStats(skill,curStats);
             }
             SkillLvlCharacterStats.put(skill,skillLevelStats);
         }
@@ -99,7 +97,6 @@ public class CharacterStatsManager {
             for(Skill skill : Skills.values()){
                amount += getSkillLevelStat(skill,stat,playerData.getSkillLevel(skill));
             }
-            plugin.getLogger().info("(CharacterStatsManager) Character stat "+stat.name()+" is "+amount);
             playerData.setCharacterStat(stat,amount);
         }
     }

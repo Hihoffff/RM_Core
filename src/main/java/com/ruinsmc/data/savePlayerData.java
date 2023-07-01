@@ -23,11 +23,17 @@ public class savePlayerData implements Listener {
     public void saveStorage(UUID uuid){
         try{
             PlayerData playerData = plugin.getPlayerManager().getPlayerData(uuid);
-            if(playerData != null){return;}
+            if(playerData == null){return;}
             Storage storage = new Storage("./"+uuid+"/"+"skills", plugin);
             for(Skill skill : Skills.values()){
-                storage.set("skills."+skill.name()+".xp",playerData.getSkillXp(skill));
-                storage.set("skills."+skill.name()+".lvl",playerData.getSkillLevel(skill));
+                double skillXP = playerData.getSkillXp(skill);
+                int skillLVL = playerData.getSkillLevel(skill);
+                if(!(skillLVL <= 0)){
+                    storage.set("skills."+skill.name()+".lvl",skillLVL);
+                }
+                if(!(skillXP <= 0)){
+                    storage.set("skills."+skill.name()+".xp",skillXP);
+                }
             }
             storage.save();
         }catch (Exception ex) {

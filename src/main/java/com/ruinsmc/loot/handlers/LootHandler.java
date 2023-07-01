@@ -30,7 +30,7 @@ public class LootHandler implements Listener {
                 public void run(){
                     Player player = e.getEntity().getKiller();
                     Mob mob = (Mob) e.getEntity();
-                    if(player == null || mob == null){return;}
+                    if(player == null || mob == null || !player.isOnline()){return;}
                     MobLoot mobLoot = plugin.getLootManager().getMobLoot(mob.getType().name());
                     if(mobLoot == null){return;}
                     plugin.getSkillsManager().addSkillXp(player, mobLoot.getSkill(), mobLoot.getSkillXP());
@@ -44,13 +44,14 @@ public class LootHandler implements Listener {
         Player player = e.getPlayer();
         Block block = e.getBlock();
         String blockName = block.getType().name();
-        boolean isBlockPlacedByPlayer = e.getBlock().getMetadata("p").isEmpty();
+        boolean isBlockPlacedNotByPlayer = e.getBlock().getMetadata("p").isEmpty();
         BlockData blockData = block.getBlockData().clone();
         new BukkitRunnable(){
             public void run(){
+                if(!player.isOnline()){return;}
                 BlockLoot blockLoot = plugin.getLootManager().getBlockLoot(blockName);
                 if(blockLoot == null){return;}
-                if(isBlockPlacedByPlayer || blockLoot.isBlockGrowable()) {
+                if(isBlockPlacedNotByPlayer || blockLoot.isBlockGrowable()) {
                     if(blockLoot.isBlockGrowable()){
                         if(!isPlantGrowFinished(blockData)){
                             return;

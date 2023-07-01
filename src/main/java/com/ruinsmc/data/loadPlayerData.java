@@ -12,39 +12,44 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.UUID;
+
 public class loadPlayerData implements Listener {
     private final RM_Core plugin;
     public loadPlayerData(RM_Core plugin){
         this.plugin = plugin;
     }
 
-    public void loadStorage(Player player){
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try{
-                    if(player == null){return;}
-                    if(!player.isOnline()){return;}
-                    PlayerData playerData = new PlayerData(player,plugin);
-                    Storage storage = new Storage("./"+player.getUniqueId()+"/"+"skills", plugin);
-                    for(Skill skill : Skills.values()){
-                        playerData.setSkillXp(skill,storage.getConfig().getDouble("skills."+skill.name()+".xp"));
-                        playerData.setSkillLevel(skill,storage.getConfig().getInt("skills."+skill.name()+".lvl"));
-                    }
-                    plugin.getPlayerManager().addPlayerData(playerData);
-                    plugin.getCharacterStatsManager().updatePlayerCharacterStats(player);
-                }catch (Exception ex) {
-                    ex.printStackTrace();
-                    player.sendMessage(ChatColor.RED+"Возникла непредвиденная ошибка во время загрузки данных. Перезайдите на сервер.");
-                }
-
+    public void loadPlayerDataFromDisk(Player player){
+        try{
+            if(player == null){return;}
+            if(!player.isOnline()){return;}
+            PlayerData playerData = new PlayerData(player,plugin);
+            Storage storage = new Storage("./"+player.getUniqueId()+"/"+"skills", plugin);
+            for(Skill skill : Skills.values()){
+                playerData.setSkillXp(skill,storage.getConfig().getDouble("skills."+skill.name()+".xp"));
+                playerData.setSkillLevel(skill,storage.getConfig().getInt("skills."+skill.name()+".lvl"));
             }
-        }.runTaskAsynchronously(plugin);
+            plugin.getPlayerManager().addPlayerData(playerData);
+            plugin.getCharacterStatsManager().updatePlayerCharacterStats(player);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            if(player.isOnline()){
+                player.sendMessage(ChatColor.RED+"Возникла непредвиденная ошибка во время загрузки данных. Перезайдите на сервер.");
+            }
+        }
+
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent e){
         Player player = e.getPlayer();
-        loadStorage(player);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                loadPlayerDataFromDisk(player);
+            }
+        }.runTaskAsynchronously(plugin);
+
     }
 
 
