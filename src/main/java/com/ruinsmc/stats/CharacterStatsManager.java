@@ -5,7 +5,6 @@ import com.ruinsmc.data.PlayerData;
 import com.ruinsmc.skills.Skill;
 import com.ruinsmc.skills.Skills;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 
@@ -20,12 +19,12 @@ public class CharacterStatsManager {
         loadDataFromConfig();
     }
     private void loadDataFromConfig(){
-        HashMap<Skill, SkillLevelStats[]> SkillLvlCharacterStatsPerLvl = new HashMap<>();
         plugin.getLogger().info("(CharacterStatsManager) Loading skill stats...");
+        HashMap<Skill, SkillLevelStats[]> SkillLvlCharacterStatsPerLvl = new HashMap<>();
         int maxLvl = plugin.getSkillsManager().getMaxLevel();
         HashMap<Stat,Double> defaultValue = new HashMap<>();
         for (Stat stat : Stats.values()){
-            defaultValue.put(stat,0.0);
+            defaultValue.put(stat,0.0d);
         }
         for(Skill skill : Skills.values()){
             SkillLevelStats[] skillLevelStats = new SkillLevelStats[maxLvl];
@@ -39,7 +38,7 @@ public class CharacterStatsManager {
         Configuration config = plugin.getConfig();
         for(String skillName : config.getConfigurationSection("SkillLvlRewards").getKeys(false)){
             Skill skill = plugin.getSkillsManager().getRegisteredSkill(skillName);
-            SkillLevelStats[] skillLevelStats = SkillLvlCharacterStatsPerLvl.get(skill);
+            SkillLevelStats[] skillLevelStats = SkillLvlCharacterStatsPerLvl.get(skill).clone();
             if(skill == null){plugin.getLogger().warning("(CharacterStatsManager) Skill "+skillName+" is not exist!");continue;}
             for(String range : config.getConfigurationSection("SkillLvlRewards."+skillName).getKeys(false)){
                 if(range == null || range == "" || range == " "){continue;}
@@ -61,9 +60,11 @@ public class CharacterStatsManager {
                         if(stat == null){plugin.getLogger().warning("(CharacterStatsManager) Stat "+statName+" in range "+range+" in skill "+skillName+" is not exist!"); ;continue;}
                         Double statCount = config.getDouble("SkillLvlRewards."+skillName+"."+range+"."+statName);
                         if(statCount == null){plugin.getLogger().warning("(CharacterStatsManager) Stat "+statName+" in range "+range+" in skill "+skillName+" is null!"); ;continue;}
-                        skillLevelStats[lvl - 1].setStat(stat,skillLevelStats[lvl-1].getStat(stat) + statCount);
+                        double previousCount = skillLevelStats[lvl-1].getStat(stat);
+                        skillLevelStats[lvl - 1].setStat(stat,previousCount + statCount);
                     }
                 }
+
             }
             SkillLvlCharacterStatsPerLvl.put(skill,skillLevelStats);
         }
@@ -72,10 +73,11 @@ public class CharacterStatsManager {
 
             for(int lvl = 1; lvl <= maxLvl;lvl++){
                 if(lvl== 1){
-                    skillLevelStats[lvl-1] = SkillLvlCharacterStatsPerLvl.get(skill)[lvl-1];
+                    skillLevelStats[lvl-1] = new SkillLevelStats(skill,SkillLvlCharacterStatsPerLvl.get(skill)[lvl-1].getStats());
+                    plugin.getLogger().info(""+SkillLvlCharacterStatsPerLvl.get(skill)[lvl-1].getStats().toString());
                     continue;
                 }
-                HashMap<Stat,Double> previousStats = SkillLvlCharacterStatsPerLvl.get(skill)[lvl-2].getStats();
+                HashMap<Stat,Double> previousStats = SkillLvlCharacterStats.get(skill)[lvl-2].getStats();
                 for(Stat stat : Stats.values()){
                     previousStats.put(stat,previousStats.getOrDefault(stat,0.0)+SkillLvlCharacterStatsPerLvl.get(skill)[lvl-1].getStat(stat));
                 }
