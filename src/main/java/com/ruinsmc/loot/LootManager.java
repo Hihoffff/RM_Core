@@ -14,7 +14,6 @@ public class LootManager {
         this.plugin = plugin;
         this.MobsLoot = new HashMap<>();
         this.BlocksLoot = new HashMap<>();
-
     }
     @Nullable
     public MobLoot getMobLoot(String mobName){

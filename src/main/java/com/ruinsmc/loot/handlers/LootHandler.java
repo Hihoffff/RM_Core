@@ -21,6 +21,7 @@ public class LootHandler implements Listener {
     private final RM_Core plugin;
     public LootHandler(RM_Core plugin){
         this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this,plugin);
     }
 
     @EventHandler

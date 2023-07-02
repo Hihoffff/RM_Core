@@ -1,12 +1,19 @@
 package com.ruinsmc.loot;
 
 import com.ruinsmc.RM_Core;
+import com.ruinsmc.rarity.Rarities;
+import com.ruinsmc.rarity.Rarity;
 import com.ruinsmc.skills.Skill;
+import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class LootLoader {
@@ -37,13 +44,13 @@ public class LootLoader {
                 Double skillXP = config.getDouble("list."+lootName+".skillXP");
                 String blockName = config.getString("list."+lootName+".blockName");
                 Skill skill = plugin.getSkillsManager().getRegisteredSkill(config.getString("list."+lootName+".skill"));
-                LootStack lootStack = new LootStack(); //coming soon
+                LootPool lootPool = loadLootPool(config,"list."+lootName+".loot");
 
-                if(skill == null || blockName == null || skillXP == null || lootStack == null){
+                if(skill == null || blockName == null || skillXP == null){
                     plugin.getLogger().warning("(LootLoader) Error while loading blockLoot for "+lootName);
                     continue;
                 }
-                BlockLoot blockLoot = new BlockLoot(blockName,skill,skillXP,lootStack);
+                BlockLoot blockLoot = new BlockLoot(blockName,skill,skillXP,lootPool);
                 Boolean isBlockGrowable = config.getBoolean("list."+lootName+".isGrowable");
                 if(isBlockGrowable != null){
                     if(isBlockGrowable){
@@ -64,18 +71,56 @@ public class LootLoader {
                 Double skillXP = config.getDouble("list."+lootName+".skillXP");
                 String mobName = config.getString("list."+lootName+".mobName");
                 Skill skill = plugin.getSkillsManager().getRegisteredSkill(config.getString("list."+lootName+".skill"));
-                LootStack lootStack = new LootStack(); //coming soon
-
-                if(skill == null || mobName == null || skillXP == null || lootStack == null){
+                LootPool lootPool = loadLootPool(config,"list."+lootName+".loot");
+                if(skill == null || mobName == null || skillXP == null){
                     plugin.getLogger().warning("(LootLoader) Error while loading mobLoot for "+lootName);
                     continue;
                 }
-                plugin.getLootManager().addMobLoot(new MobLoot(mobName,skill,skillXP,lootStack));
+
+                plugin.getLootManager().addMobLoot(new MobLoot(mobName,skill,skillXP,lootPool));
             }
 
         }
 
         plugin.getLogger().info("(LootLoader) LootData loaded successfully!");
+    }
+    @Nullable
+    private LootPool loadLootPool(YamlConfiguration config,String lootPath){
+        try{
+            ConfigurationSection configSect = config.getConfigurationSection(lootPath);
+            if(configSect == null) return null;
+            List<LootItem> lootItemList = new ArrayList<>();
+            for(String lootNum : configSect.getKeys(false)){
+                Rarity rarity = Rarities.valueOf(config.getString(lootPath+"."+lootNum+".rarity"));
+                Byte minCount = (byte) config.getInt(lootPath+"."+lootNum+".minCount");
+                Byte maxCount = (byte) config.getInt(lootPath+"."+lootNum+".maxCount");
+                Integer weight = config.getInt(lootPath+"."+lootNum+".weight");
+                Boolean isItemCustom = config.getBoolean(lootPath+"."+lootNum+".isCustom",false);
+                String id = config.getString(lootPath+"."+lootNum+".id");
+                ItemStack item = null;
+                if(isItemCustom){
+                    item = plugin.getItemsManager().getItem(id);
+                }
+                else {
+                    item = new ItemStack(Material.getMaterial(id),1);
+                }
+                if(maxCount == null || minCount == null || rarity == null || weight == null || item == null) {
+                    plugin.getLogger().warning("(LootLoader) Error while loading lootNum "+lootNum+" in loot path <"+lootPath+"> !!!");
+                    continue;
+                }
+                LootItem lootItem = new LootItem(item,weight,rarity,minCount,maxCount);
+                lootItemList.add(lootItem);
+            }
+            if(lootItemList.isEmpty()){return null;}
+            LootItem[] lootItems = new LootItem[lootItemList.size()];
+            for(int i = 0; i < lootItemList.size(); i++){
+                lootItems[i] = lootItemList.get(i);
+            }
+            return new LootPool(plugin,lootItems);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
     }
     private void generateDefaultItemDataFile(){
         File blocksFile = new File(plugin.getDataFolder() + "/loot", "blocks.yml");

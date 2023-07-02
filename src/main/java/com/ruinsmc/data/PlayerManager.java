@@ -38,7 +38,10 @@ public class PlayerManager {
     }
 
     public void savePlayerDataToDisk(UUID playerUUID){
-        this.savePlayerData.saveStorage(playerUUID);
+        this.savePlayerData.savePlayerDataToDisk(this.getPlayerData(playerUUID));
+    }
+    public void saveAllPlayerDataToDisk(boolean onlyOnlinePlayers){
+        this.savePlayerData.saveALlPlayerData(onlyOnlinePlayers);
     }
     public void loadPlayerDataFromDisk(Player player){
         this.loadPlayerData.loadPlayerDataFromDisk(player);

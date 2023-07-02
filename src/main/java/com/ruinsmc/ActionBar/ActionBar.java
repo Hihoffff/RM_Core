@@ -5,13 +5,13 @@ import com.ruinsmc.data.PlayerData;
 import com.ruinsmc.skills.Skill;
 import com.ruinsmc.stats.Stats;
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 
 import java.util.HashMap;
@@ -23,6 +23,7 @@ public class ActionBar implements Listener {
 
     public ActionBar(RM_Core plugin){
         this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this,plugin);
         startActionBarUpdate();
     }
     @EventHandler
@@ -32,11 +33,13 @@ public class ActionBar implements Listener {
 
     public void startActionBarUpdate(){
         Integer delay = plugin.getConfig().getInt("player.ActionBarDelay");
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-            for(Player player : Bukkit.getOnlinePlayers()){
-                sendActionBar(player);
+        new BukkitRunnable(){
+            public void run(){
+                for(Player player : Bukkit.getOnlinePlayers()){
+                    sendActionBar(player);
+                }
             }
-        },1,delay);
+        }.runTaskTimer(plugin,2,delay);
     }
 
     private void sendActionBar(Player player){ //sending action bar for every player

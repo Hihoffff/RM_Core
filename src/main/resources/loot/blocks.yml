@@ -7,16 +7,18 @@ list:
     loot:
       0:
         id: COBBLESTONE
+        rarity: COMMON
         isCustom: false
         weight: 100
-        minAmount: 5
-        maxAmount: 20
+        minCount: 5
+        maxCount: 20
       1:
         id: STONE
+        rarity: COMMON
         isCustom: false
         weight: 100
-        minAmount: 1
-        maxAmount: 5
+        minCount: 1
+        maxCount: 5
   COBBLESTONE:
     blockName: COBBLESTONE
     skill: MINING

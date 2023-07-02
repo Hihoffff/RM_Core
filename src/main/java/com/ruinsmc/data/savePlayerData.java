@@ -4,7 +4,6 @@ import com.ruinsmc.RM_Core;
 import com.ruinsmc.Storage;
 import com.ruinsmc.skills.Skill;
 import com.ruinsmc.skills.Skills;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,12 +17,13 @@ public class savePlayerData implements Listener {
     private final RM_Core plugin;
     public savePlayerData(RM_Core plugin){
         this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this,plugin);
         startAutoSave();
     }
-    public void saveStorage(UUID uuid){
+    public void savePlayerDataToDisk(PlayerData playerData){
         try{
-            PlayerData playerData = plugin.getPlayerManager().getPlayerData(uuid);
             if(playerData == null){return;}
+            UUID uuid = playerData.getPlayer().getUniqueId();
             Storage storage = new Storage("./"+uuid+"/"+"skills", plugin);
             for(Skill skill : Skills.values()){
                 double skillXP = playerData.getSkillXp(skill);
@@ -45,11 +45,26 @@ public class savePlayerData implements Listener {
         Player player = e.getPlayer();
         new BukkitRunnable(){
             public void run(){
-                saveStorage(player.getUniqueId());
+                PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+                savePlayerDataToDisk(playerData);
                 plugin.getPlayerManager().removePlayerData(player.getUniqueId());
             }
         }.runTaskAsynchronously(plugin);
 
+    }
+    public void saveALlPlayerData(boolean onlyOnlinePlayers){
+        for (UUID uuid : plugin.getPlayerManager().getPlayerDataMap().keySet()) {
+            if(onlyOnlinePlayers){
+                if(plugin.getServer().getPlayer(uuid).isOnline()){
+                    PlayerData playerData = plugin.getPlayerManager().getPlayerData(uuid);
+                    savePlayerDataToDisk(playerData);
+                    continue;
+                }
+                continue;
+            }
+            PlayerData playerData = plugin.getPlayerManager().getPlayerData(uuid);
+            savePlayerDataToDisk(playerData);
+        }
     }
     private void startAutoSave(){
         plugin.getLogger().info("Registering AutoSave thread...");
@@ -57,13 +72,11 @@ public class savePlayerData implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    new BukkitRunnable(){
-                        public void run(){
-                            saveStorage(player.getUniqueId());
-                        }
-                    }.runTaskAsynchronously(plugin);
-                }
+                new BukkitRunnable(){
+                    public void run(){
+                        saveALlPlayerData(true);
+                    }
+                }.runTaskAsynchronously(plugin);
             }
         }.runTaskTimer(plugin, interval, interval);
     }

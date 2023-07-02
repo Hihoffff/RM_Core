@@ -18,6 +18,7 @@ public class loadPlayerData implements Listener {
     private final RM_Core plugin;
     public loadPlayerData(RM_Core plugin){
         this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this,plugin);
     }
 
     public void loadPlayerDataFromDisk(Player player){

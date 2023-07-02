@@ -4,22 +4,17 @@ import com.ruinsmc.ActionBar.ActionBar;
 import com.ruinsmc.Utils.Utils;
 import com.ruinsmc.commands.adminCommands;
 import com.ruinsmc.data.PlayerManager;
-import com.ruinsmc.data.loadPlayerData;
-import com.ruinsmc.data.savePlayerData;
 import com.ruinsmc.events.FoodLevelChanged;
 import com.ruinsmc.items.ItemsLoader;
 import com.ruinsmc.items.ItemsManager;
 import com.ruinsmc.items.RecipesManager;
 import com.ruinsmc.loot.LootLoader;
 import com.ruinsmc.loot.LootManager;
-import com.ruinsmc.loot.handlers.LootHandler;
 import com.ruinsmc.skills.fishing.FishingMain;
 import com.ruinsmc.skills.skillsManager;
 import com.ruinsmc.stats.CharacterStatsManager;
 import com.ruinsmc.stats.defense.DefenseMain;
-import com.ruinsmc.stats.handlers.StatsHandler;
 import com.ruinsmc.stats.health.HealthMain;
-import com.ruinsmc.stats.health.RegenerationMain;
 import com.ruinsmc.stats.InventoryStatsManager;
 import com.ruinsmc.stats.strength.StrengthMain;
 import com.ruinsmc.stats.wisdom.WisdomMain;
@@ -46,7 +41,6 @@ public final class RM_Core extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        registerEvents();
         this.recipesManager = new RecipesManager(this);
         this.itemsManager = new ItemsManager(this);
         this.itemsLoader = new ItemsLoader(this);
@@ -61,6 +55,7 @@ public final class RM_Core extends JavaPlugin {
         this.actionBar = new ActionBar(this);
         this.characterStatsManager = new CharacterStatsManager(this);
 
+        registerEvents();
         registerCommands();
         getLogger().info("RM_Core enabled!");
 
@@ -77,18 +72,12 @@ public final class RM_Core extends JavaPlugin {
 
         //pm.registerEvents(new savePlayerInventory(this),this);
         //pm.registerEvents(new loadPlayerInventory(this),this);
-        pm.registerEvents(new savePlayerData(this),this);
-        pm.registerEvents(new loadPlayerData(this),this);
-        pm.registerEvents(new ActionBar(this),this);
-        pm.registerEvents(new StatsHandler(this),this);
-        pm.registerEvents(new LootHandler(this),this);
 
         pm.registerEvents(new FishingMain(this),this);
 
         pm.registerEvents(new DefenseMain(this),this);
         pm.registerEvents(new HealthMain(this),this);
         pm.registerEvents(new StrengthMain(this),this);
-        pm.registerEvents(new RegenerationMain(this),this);
 
         pm.registerEvents(new FoodLevelChanged(),this);
         getLogger().info("Events registered!");
@@ -96,6 +85,10 @@ public final class RM_Core extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        this.getPlayerManager().saveAllPlayerDataToDisk(false);
+        if(!this.getPlayerManager().getPlayerDataMap().isEmpty()){
+            this.getPlayerManager().getPlayerDataMap().clear();
+        }
         getLogger().info("RM_Core disabled!");
     }
     public PlayerManager getPlayerManager(){
