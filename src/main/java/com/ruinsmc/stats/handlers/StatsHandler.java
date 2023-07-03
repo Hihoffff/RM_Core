@@ -17,7 +17,6 @@ public class StatsHandler implements Listener {
     private final RM_Core plugin;
     public StatsHandler(RM_Core plugin){
         this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this,plugin);
     }
     @EventHandler
     public void onPlayerUpdatedArmor(PlayerArmorChangeEvent e){

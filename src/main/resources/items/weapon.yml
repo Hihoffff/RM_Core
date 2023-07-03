@@ -50,3 +50,16 @@ items:
       critchance: 50
       defense: 9999
       health: 9999
+  lucky_sword:
+    id: lucky_sword
+    material: DIAMOND_SWORD
+    type: weapon
+    name: Lucky Sword
+    rarity: MYTHIC
+    stats:
+      damage: 9999
+      strength: 99999
+      critchance: 50
+      defense: 9999
+      health: 9999
+      luck: 9999

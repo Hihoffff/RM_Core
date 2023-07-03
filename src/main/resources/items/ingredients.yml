@@ -2,4 +2,8 @@ items:
   green_gear:
     name: Зелёная шестерня
     id: green_gear
-    material: CACTUS_GREEN
+    material: DYE:2
+  zombie_shard:
+    name: Осколок зомби
+    id: zombie_shard
+    material: SLIME_BALL

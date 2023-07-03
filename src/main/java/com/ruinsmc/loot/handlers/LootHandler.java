@@ -2,9 +2,13 @@ package com.ruinsmc.loot.handlers;
 
 
 import com.ruinsmc.RM_Core;
+import com.ruinsmc.data.PlayerData;
 import com.ruinsmc.loot.BlockLoot;
 import com.ruinsmc.loot.MobLoot;
+import com.ruinsmc.stats.Stats;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
@@ -14,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -21,22 +26,27 @@ public class LootHandler implements Listener {
     private final RM_Core plugin;
     public LootHandler(RM_Core plugin){
         this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this,plugin);
     }
 
     @EventHandler
     public void onEntityDeath(org.bukkit.event.entity.EntityDeathEvent e){
         if(e.getEntity() instanceof Mob && e.getEntity().getKiller() instanceof Player){
-            new BukkitRunnable(){
-                public void run(){
-                    Player player = e.getEntity().getKiller();
-                    Mob mob = (Mob) e.getEntity();
-                    if(player == null || mob == null || !player.isOnline()){return;}
-                    MobLoot mobLoot = plugin.getLootManager().getMobLoot(mob.getType().name());
-                    if(mobLoot == null){return;}
-                    plugin.getSkillsManager().addSkillXp(player, mobLoot.getSkill(), mobLoot.getSkillXP());
+            Player player = e.getEntity().getKiller();
+            Mob mob = (Mob) e.getEntity();
+            if(player == null || mob == null){return;}
+            MobLoot mobLoot = plugin.getLootManager().getMobLoot(mob.getType().name());
+            if(mobLoot == null){return;}
+            if(mobLoot.getLootPool() != null){
+                PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+                if(playerData != null){
+                    ItemStack randomLoot = mobLoot.getLootPool().getRandomLoot(playerData.getStatLevel(Stats.LUCK));
+                    if(randomLoot != null){
+                        World world = mob.getWorld();
+                        world.dropItemNaturally(mob.getLocation(),randomLoot);
+                    }
                 }
-            }.runTaskAsynchronously(plugin);
+            }
+            plugin.getSkillsManager().addSkillXp(player, mobLoot.getSkill(), mobLoot.getSkillXP());
         }
 
     }
@@ -44,38 +54,43 @@ public class LootHandler implements Listener {
     public void onBlockBreak(BlockBreakEvent e){
         Player player = e.getPlayer();
         Block block = e.getBlock();
-        String blockName = block.getType().name();
+        BlockLoot blockLoot = plugin.getLootManager().getBlockLoot(block.getType().name());
+        if(blockLoot == null){return;}
         boolean isBlockPlacedNotByPlayer = e.getBlock().getMetadata("p").isEmpty();
-        BlockData blockData = block.getBlockData().clone();
-        new BukkitRunnable(){
-            public void run(){
-                if(!player.isOnline()){return;}
-                BlockLoot blockLoot = plugin.getLootManager().getBlockLoot(blockName);
-                if(blockLoot == null){return;}
-                if(isBlockPlacedNotByPlayer || blockLoot.isBlockGrowable()) {
-                    if(blockLoot.isBlockGrowable()){
-                        if(!isPlantGrowFinished(blockData)){
-                            return;
-                        }
-                    }
-                    plugin.getSkillsManager().addSkillXp(player, blockLoot.getSkill(), blockLoot.getSkillXP());
+        plugin.getLogger().info("1");
+        if(isBlockPlacedNotByPlayer || blockLoot.isBlockGrowable()) {
+            if(blockLoot.isBlockGrowable()){
+                if(!isPlantGrowFinished(block)){
+                    return;
                 }
             }
-        }.runTaskAsynchronously(plugin);
-    }
-    private boolean isPlantGrowFinished(BlockData blockData){
-        try {
-            Ageable age = (Ageable) blockData;
-            if(age == null){return true;}
-            if(age.getAge() == age.getMaximumAge()){
-                return true;
+            plugin.getLogger().info("2");
+            if(blockLoot.getLootPool() != null){
+                plugin.getLogger().info("3");
+                PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+                if(playerData != null){
+                    if(blockLoot.getLootPool().replaceVanillaLoot() == true){
+                        e.setDropItems(false);
+                    }
+                    plugin.getLogger().info("4");
+                    ItemStack randomLoot = blockLoot.getLootPool().getRandomLoot(playerData.getStatLevel(Stats.LUCK));
+                    if(randomLoot != null){
+                        plugin.getLogger().info("5");
+                        World world = e.getBlock().getWorld();
+                        world.dropItemNaturally(e.getBlock().getLocation(), randomLoot);
+                    }
+                }
             }
-            return false;
-        }catch (Exception ex){
-            ex.printStackTrace();
+            plugin.getSkillsManager().addSkillXp(player, blockLoot.getSkill(), blockLoot.getSkillXP());
+        }
+    }
+    private boolean isPlantGrowFinished(Block block){
+        Ageable age = (Ageable) block.getState();
+        if(age == null){return true;}
+        if(age.getAge() == age.getMaximumAge()){
             return true;
         }
-
+        return false;
     }
 
     @EventHandler

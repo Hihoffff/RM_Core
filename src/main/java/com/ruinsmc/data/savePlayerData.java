@@ -72,13 +72,9 @@ public class savePlayerData implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                new BukkitRunnable(){
-                    public void run(){
-                        saveALlPlayerData(true);
-                    }
-                }.runTaskAsynchronously(plugin);
+                saveALlPlayerData(true);
             }
-        }.runTaskTimer(plugin, interval, interval);
+        }.runTaskTimerAsynchronously(plugin, interval, interval);
     }
 }
 

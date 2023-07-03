@@ -44,7 +44,7 @@ public class LootLoader {
                 Double skillXP = config.getDouble("list."+lootName+".skillXP");
                 String blockName = config.getString("list."+lootName+".blockName");
                 Skill skill = plugin.getSkillsManager().getRegisteredSkill(config.getString("list."+lootName+".skill"));
-                LootPool lootPool = loadLootPool(config,"list."+lootName+".loot");
+                LootPool lootPool = loadLootPool(config,"list."+lootName);
 
                 if(skill == null || blockName == null || skillXP == null){
                     plugin.getLogger().warning("(LootLoader) Error while loading blockLoot for "+lootName);
@@ -71,7 +71,7 @@ public class LootLoader {
                 Double skillXP = config.getDouble("list."+lootName+".skillXP");
                 String mobName = config.getString("list."+lootName+".mobName");
                 Skill skill = plugin.getSkillsManager().getRegisteredSkill(config.getString("list."+lootName+".skill"));
-                LootPool lootPool = loadLootPool(config,"list."+lootName+".loot");
+                LootPool lootPool = loadLootPool(config,"list."+lootName);
                 if(skill == null || mobName == null || skillXP == null){
                     plugin.getLogger().warning("(LootLoader) Error while loading mobLoot for "+lootName);
                     continue;
@@ -85,13 +85,17 @@ public class LootLoader {
         plugin.getLogger().info("(LootLoader) LootData loaded successfully!");
     }
     @Nullable
-    private LootPool loadLootPool(YamlConfiguration config,String lootPath){
+    private LootPool loadLootPool(YamlConfiguration config,String path){
         try{
+            String lootPath = path+".loot";
             ConfigurationSection configSect = config.getConfigurationSection(lootPath);
-            if(configSect == null) return null;
+            if(configSect == null){
+                return null;
+            }
             List<LootItem> lootItemList = new ArrayList<>();
+            Boolean replaceVanillaLoot = config.getBoolean(path+".replaceVanillaLoot",false);
             for(String lootNum : configSect.getKeys(false)){
-                Rarity rarity = Rarities.valueOf(config.getString(lootPath+"."+lootNum+".rarity"));
+                Rarity rarity = Rarities.valueOf(config.getString(lootPath+"."+lootNum+".rarity",""));
                 Byte minCount = (byte) config.getInt(lootPath+"."+lootNum+".minCount");
                 Byte maxCount = (byte) config.getInt(lootPath+"."+lootNum+".maxCount");
                 Integer weight = config.getInt(lootPath+"."+lootNum+".weight");
@@ -116,7 +120,8 @@ public class LootLoader {
             for(int i = 0; i < lootItemList.size(); i++){
                 lootItems[i] = lootItemList.get(i);
             }
-            return new LootPool(plugin,lootItems);
+            plugin.getLogger().info("(LootLoader) loaded lootPool with path "+ path);
+            return new LootPool(plugin,lootItems,replaceVanillaLoot);
         }catch (Exception ex){
             ex.printStackTrace();
             return null;

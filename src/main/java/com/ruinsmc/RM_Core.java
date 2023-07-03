@@ -10,10 +10,12 @@ import com.ruinsmc.items.ItemsManager;
 import com.ruinsmc.items.RecipesManager;
 import com.ruinsmc.loot.LootLoader;
 import com.ruinsmc.loot.LootManager;
+import com.ruinsmc.loot.handlers.LootHandler;
 import com.ruinsmc.skills.fishing.FishingMain;
 import com.ruinsmc.skills.skillsManager;
 import com.ruinsmc.stats.CharacterStatsManager;
 import com.ruinsmc.stats.defense.DefenseMain;
+import com.ruinsmc.stats.handlers.StatsHandler;
 import com.ruinsmc.stats.health.HealthMain;
 import com.ruinsmc.stats.InventoryStatsManager;
 import com.ruinsmc.stats.strength.StrengthMain;
@@ -72,6 +74,10 @@ public final class RM_Core extends JavaPlugin {
 
         //pm.registerEvents(new savePlayerInventory(this),this);
         //pm.registerEvents(new loadPlayerInventory(this),this);
+        pm.registerEvents(getActionBar(),this);
+
+        pm.registerEvents(new LootHandler(this),this);
+        pm.registerEvents(new StatsHandler(this),this);
 
         pm.registerEvents(new FishingMain(this),this);
 

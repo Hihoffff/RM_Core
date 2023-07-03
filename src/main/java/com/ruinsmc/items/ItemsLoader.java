@@ -3,6 +3,7 @@ package com.ruinsmc.items;
 import com.ruinsmc.RM_Core;
 import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -47,8 +48,6 @@ public class ItemsLoader {
         plugin.getLogger().info("(ItemsLoader) Loading "+fileName+"...");
         for(String curItem : file.getConfigurationSection("items").getKeys(false)){
             String itemPath = "items."+curItem+".";
-            //plugin.getLogger().info("Material: "+file.getString(itemPath+"material"));
-
             Material material = Material.getMaterial(file.getString(itemPath+"material"));
             String id = file.getString(itemPath+"id");
             String name = file.getString(itemPath+"name");
@@ -62,10 +61,13 @@ public class ItemsLoader {
             ItemStack item = new ItemStack(material);
             NBTItem nbtitem = new NBTItem(item);
             List lore = new ArrayList();
-            for(String curStat : file.getConfigurationSection(itemPath+"stats").getKeys(false)){
-                Integer statValue = file.getInt(itemPath+".stats."+curStat);
-                lore.add(curStat+": "+statValue);
-                nbtitem.setInteger(curStat,statValue);
+            ConfigurationSection configurationSectionStats = file.getConfigurationSection(itemPath+"stats");
+            if(configurationSectionStats != null) {
+                for (String curStat : configurationSectionStats.getKeys(false)) {
+                    Integer statValue = file.getInt(itemPath + ".stats." + curStat);
+                    lore.add(curStat + ": " + statValue);
+                    nbtitem.setInteger(curStat, statValue);
+                }
             }
             lore.add(" ");
             lore.add(rarity);

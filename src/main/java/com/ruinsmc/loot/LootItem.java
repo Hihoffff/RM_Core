@@ -32,5 +32,8 @@ public class LootItem {
     public byte getMaxCount(){
         return this.maxCount;
     }
+    public int getWeight(){
+        return this.weight;
+    }
 
 }

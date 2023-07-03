@@ -88,18 +88,39 @@ farmingblocks:
 
 SkillLvlRewards:
   MINING:
-    "1-10":
+    1-10:
       DEFENSE: 1
-    "11-20":
+    11-20:
       DEFENSE: 1.5
-    "21-60":
+    21-60:
       DEFENSE: 2
     1:
       HEALTH: 1
+      LUCK: 1
+    10:
+      LUCK: 1
+      HEALTH: 1
+    20:
+      LUCK: 1
+      HEALTH: 1
+    30:
+      LUCK: 1
+      HEALTH: 1
+    40:
+      LUCK: 1
+      HEALTH: 1
+    50:
+      LUCK: 1
+      HEALTH: 1
+    60:
+      LUCK: 1
+      HEALTH: 1
   COMBAT:
-    "1-30":
+    1-30:
       STRENGTH: 1
-    "1-60":
+    31-60:
+      STRENGTH: 1.5
+    1-60:
       CRITCHANCE: 0.5
 
 

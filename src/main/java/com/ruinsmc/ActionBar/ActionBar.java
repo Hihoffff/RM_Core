@@ -23,7 +23,6 @@ public class ActionBar implements Listener {
 
     public ActionBar(RM_Core plugin){
         this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this,plugin);
         startActionBarUpdate();
     }
     @EventHandler
@@ -33,13 +32,14 @@ public class ActionBar implements Listener {
 
     public void startActionBarUpdate(){
         Integer delay = plugin.getConfig().getInt("player.ActionBarDelay");
+
         new BukkitRunnable(){
             public void run(){
                 for(Player player : Bukkit.getOnlinePlayers()){
                     sendActionBar(player);
                 }
             }
-        }.runTaskTimer(plugin,2,delay);
+        }.runTaskTimerAsynchronously(plugin,2,delay);
     }
 
     private void sendActionBar(Player player){ //sending action bar for every player
