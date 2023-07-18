@@ -3,9 +3,7 @@ package com.ruinsmc.data;
 import com.ruinsmc.RM_Core;
 
 import com.ruinsmc.skills.Skill;
-import com.ruinsmc.stats.CharacterStatsManager;
 import com.ruinsmc.stats.Stat;
-import com.ruinsmc.stats.Stats;
 import org.bukkit.entity.Player;
 import java.util.HashMap;
 
@@ -13,6 +11,7 @@ import java.util.HashMap;
 public class PlayerData {
     private final Player player;
     private final RM_Core plugin;
+    private long money;
 
     private final HashMap<Skill, Double> skillXp;
     private final HashMap<Skill, Integer> skillLevels;
@@ -33,6 +32,7 @@ public class PlayerData {
         this.toolStats = new HashMap<>();
         this.curMana = plugin.getConfig().getDouble("player.baseMana");
         this.characterStats = new HashMap<>();
+        this.money = 0;
     }
     public RM_Core getPlugin(){
         return plugin;
@@ -71,5 +71,11 @@ public class PlayerData {
     }
     public void setMana(Double value){
         curMana = value;
+    }
+    public long getMoney(){
+        return this.money;
+    }
+    public void setMoney(Long money){
+        this.money = money;
     }
 }

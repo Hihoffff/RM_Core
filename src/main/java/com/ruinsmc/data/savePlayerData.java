@@ -35,6 +35,7 @@ public class savePlayerData implements Listener {
                     storage.set("skills."+skill.name()+".xp",skillXP);
                 }
             }
+            storage.set("money",playerData.getMoney());
             storage.save();
         }catch (Exception ex) {
             ex.printStackTrace();

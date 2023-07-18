@@ -1,9 +1,9 @@
-PlayerProfilesPath: /home/sftp_minecraft/RMTests/
+PlayerProfilesPath: /home/sftp_minecraft/RM_Data/
 player:
   baseMana: 20
   baseHP: 20
   ActionBarDelay: 40
-  HealthUpdateDelay: 20
+  sideScoreBoardDelay: 40
   AutoSaveDelay: 4800
 
 XP_For_Level:

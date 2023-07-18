@@ -5,6 +5,7 @@ import com.ruinsmc.Storage;
 import com.ruinsmc.skills.Skill;
 import com.ruinsmc.skills.Skills;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,7 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.UUID;
+
 
 public class loadPlayerData implements Listener {
     private final RM_Core plugin;
@@ -27,10 +28,12 @@ public class loadPlayerData implements Listener {
             if(!player.isOnline()){return;}
             PlayerData playerData = new PlayerData(player,plugin);
             Storage storage = new Storage("./"+player.getUniqueId()+"/"+"skills", plugin);
+            Configuration config = storage.getConfig();
             for(Skill skill : Skills.values()){
-                playerData.setSkillXp(skill,storage.getConfig().getDouble("skills."+skill.name()+".xp"));
-                playerData.setSkillLevel(skill,storage.getConfig().getInt("skills."+skill.name()+".lvl"));
+                playerData.setSkillXp(skill,config.getDouble("skills."+skill.name()+".xp",0.0d));
+                playerData.setSkillLevel(skill,config.getInt("skills."+skill.name()+".lvl",0));
             }
+            playerData.setMoney(config.getLong("money",0));
             plugin.getPlayerManager().addPlayerData(playerData);
             plugin.getCharacterStatsManager().updatePlayerCharacterStats(player);
         }catch (Exception ex) {

@@ -59,7 +59,7 @@ public class skillsManager {
     }
     public double getXPforLevel(Integer level){
         if(level > getMaxLevel()){
-            return 999999999999999999999999999999999999999999999999d;
+            return Double.MAX_VALUE;
         }
         return this.XPforLevel[level-1];
     }

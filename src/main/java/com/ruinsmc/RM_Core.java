@@ -11,6 +11,7 @@ import com.ruinsmc.items.RecipesManager;
 import com.ruinsmc.loot.LootLoader;
 import com.ruinsmc.loot.LootManager;
 import com.ruinsmc.loot.handlers.LootHandler;
+import com.ruinsmc.scoreboard.ScoreBoardManager;
 import com.ruinsmc.skills.fishing.FishingMain;
 import com.ruinsmc.skills.skillsManager;
 import com.ruinsmc.stats.CharacterStatsManager;
@@ -38,6 +39,7 @@ public final class RM_Core extends JavaPlugin {
     private InventoryStatsManager inventoryStatsManager;
     private LootManager lootManager;
     private LootLoader lootLoader;
+    private ScoreBoardManager scoreBoardManager;
 
 
     @Override
@@ -56,6 +58,7 @@ public final class RM_Core extends JavaPlugin {
         this.lootLoader = new LootLoader(this);
         this.actionBar = new ActionBar(this);
         this.characterStatsManager = new CharacterStatsManager(this);
+        this.scoreBoardManager = new ScoreBoardManager(this);
 
         registerEvents();
         registerCommands();
