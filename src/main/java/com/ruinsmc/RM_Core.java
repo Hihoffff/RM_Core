@@ -2,7 +2,7 @@ package com.ruinsmc;
 
 import com.ruinsmc.ActionBar.ActionBar;
 import com.ruinsmc.Utils.Utils;
-import com.ruinsmc.commands.adminCommands;
+import com.ruinsmc.commands.playerCommands;
 import com.ruinsmc.data.PlayerManager;
 import com.ruinsmc.events.FoodLevelChanged;
 import com.ruinsmc.items.ItemsLoader;
@@ -68,7 +68,7 @@ public final class RM_Core extends JavaPlugin {
     }
     private void registerCommands(){
         getLogger().info("Registering commands....");
-        this.getCommand("admin").setExecutor(new adminCommands(this));
+        this.getCommand("admin").setExecutor(new playerCommands(this));
         getLogger().info("Commands registered!");
     }
     private void registerEvents(){

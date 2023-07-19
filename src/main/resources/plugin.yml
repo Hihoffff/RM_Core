@@ -8,3 +8,5 @@ depend:
 commands:
   admin:
     usage: /admin
+  menu:
+    usage: /menu

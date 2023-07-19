@@ -8,10 +8,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class adminCommands implements CommandExecutor {
+public class playerCommands implements CommandExecutor {
     private final RM_Core plugin;
 
-    public adminCommands(RM_Core plugin){
+    public playerCommands(RM_Core plugin){
         this.plugin = plugin;
     }
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -34,6 +34,12 @@ public class adminCommands implements CommandExecutor {
                 }
 
             }
+            return true;
+        }
+        if(sender instanceof Player){
+            Player player = (Player) sender;
+
+            return true;
         }
         return true;
     }

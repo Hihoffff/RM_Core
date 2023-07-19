@@ -20,9 +20,9 @@ public class savePlayerData implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this,plugin);
         startAutoSave();
     }
-    public void savePlayerDataToDisk(PlayerData playerData){
+    public boolean savePlayerDataToDisk(PlayerData playerData){
         try{
-            if(playerData == null){return;}
+            if(playerData == null){return false;}
             UUID uuid = playerData.getPlayer().getUniqueId();
             Storage storage = new Storage("./"+uuid+"/"+"skills", plugin);
             for(Skill skill : Skills.values()){
@@ -39,7 +39,9 @@ public class savePlayerData implements Listener {
             storage.save();
         }catch (Exception ex) {
             ex.printStackTrace();
+            return false;
         }
+        return true;
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent e){

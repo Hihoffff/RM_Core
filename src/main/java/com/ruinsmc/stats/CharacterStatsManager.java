@@ -86,7 +86,7 @@ public class CharacterStatsManager {
     }
 
     private double getSkillLevelStat(Skill skill,Stat stat,Integer level){
-        if(level <= 0){return 0.0d;}
+        if(level == 0){return 0.0d;}
         return SkillLvlCharacterStats.get(skill)[level-1].getStat(stat);
     }
     public void updatePlayerCharacterStats(Player player){

@@ -8,4 +8,5 @@ public enum Skills implements Skill{
     ENCHANTING,
     ALCHEMY,
     FISHING,
+    CRAFTING,
 }

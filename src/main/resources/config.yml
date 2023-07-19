@@ -1,3 +1,6 @@
+server:
+  type: cave #cave / rmworld
+
 PlayerProfilesPath: /home/sftp_minecraft/RM_Data/
 player:
   baseMana: 20
