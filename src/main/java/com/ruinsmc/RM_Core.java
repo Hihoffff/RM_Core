@@ -1,6 +1,7 @@
 package com.ruinsmc;
 
 import com.ruinsmc.ActionBar.ActionBar;
+import com.ruinsmc.Proxy.ProxyManager;
 import com.ruinsmc.Utils.Utils;
 import com.ruinsmc.commands.playerCommands;
 import com.ruinsmc.data.PlayerManager;
@@ -11,6 +12,7 @@ import com.ruinsmc.items.RecipesManager;
 import com.ruinsmc.loot.LootLoader;
 import com.ruinsmc.loot.LootManager;
 import com.ruinsmc.loot.handlers.LootHandler;
+import com.ruinsmc.menus.menusManager;
 import com.ruinsmc.scoreboard.ScoreBoardManager;
 import com.ruinsmc.skills.fishing.FishingMain;
 import com.ruinsmc.skills.skillsManager;
@@ -26,6 +28,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RM_Core extends JavaPlugin {
 
+    private String serverType;
+
     private PlayerManager playerManager;
     private HealthMain healthManager;
     private ActionBar actionBar;
@@ -40,11 +44,16 @@ public final class RM_Core extends JavaPlugin {
     private LootManager lootManager;
     private LootLoader lootLoader;
     private ScoreBoardManager scoreBoardManager;
+    private playerCommands playerCommands;
+    private menusManager menusManager;
+    private ProxyManager proxyManager;
 
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        this.serverType = getConfig().getString("server.type");
+
         this.recipesManager = new RecipesManager(this);
         this.itemsManager = new ItemsManager(this);
         this.itemsLoader = new ItemsLoader(this);
@@ -59,17 +68,14 @@ public final class RM_Core extends JavaPlugin {
         this.actionBar = new ActionBar(this);
         this.characterStatsManager = new CharacterStatsManager(this);
         this.scoreBoardManager = new ScoreBoardManager(this);
+        this.playerCommands = new playerCommands(this);
+        this.menusManager = new menusManager(this);
+        this.proxyManager = new ProxyManager(this);
 
         registerEvents();
-        registerCommands();
         getLogger().info("RM_Core enabled!");
 
 
-    }
-    private void registerCommands(){
-        getLogger().info("Registering commands....");
-        this.getCommand("admin").setExecutor(new playerCommands(this));
-        getLogger().info("Commands registered!");
     }
     private void registerEvents(){
         getLogger().info("Registering events...");
@@ -94,7 +100,7 @@ public final class RM_Core extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        this.getPlayerManager().saveAllPlayerDataToDisk(false);
+        this.getPlayerManager().saveAllPlayerDataToDisk(true);
         if(!this.getPlayerManager().getPlayerDataMap().isEmpty()){
             this.getPlayerManager().getPlayerDataMap().clear();
         }
@@ -119,4 +125,13 @@ public final class RM_Core extends JavaPlugin {
     public ActionBar getActionBar(){return this.actionBar;}
     public InventoryStatsManager getInventoryStatsManager(){return this.inventoryStatsManager;}
     public CharacterStatsManager getCharacterStatsManager(){return this.characterStatsManager;}
+    public menusManager getMenusManager(){
+        return this.menusManager;
+    }
+    public String getServerType(){
+        return this.serverType;
+    }
+    public ProxyManager getProxyManager(){
+        return this.proxyManager;
+    }
 }

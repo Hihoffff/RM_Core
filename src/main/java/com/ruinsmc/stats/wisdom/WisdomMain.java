@@ -1,6 +1,7 @@
 package com.ruinsmc.stats.wisdom;
 
 import com.ruinsmc.RM_Core;
+import com.ruinsmc.data.PlayerData;
 import com.ruinsmc.stats.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -30,12 +31,18 @@ public class WisdomMain {
         },1,40);
     }
     public double getPlayerMaxMana(Player player){
-        return plugin.getPlayerManager().getPlayerData(player.getUniqueId()).getStatLevel(Stats.WISDOM) + defaultMana;
+        PlayerData playerData =  plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+        if(playerData == null){return  0;}
+        return playerData.getStatLevel(Stats.WISDOM) + defaultMana;
     }
     public double getPlayerMana(Player player){
-        return plugin.getPlayerManager().getPlayerData(player.getUniqueId()).getMana();
+        PlayerData playerData =  plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+        if(playerData == null){return  0;}
+        return playerData.getMana();
     }
     public void setPlayerMana(Player player, Double value){
-        plugin.getPlayerManager().getPlayerData(player.getUniqueId()).setMana(value);
+        PlayerData playerData =  plugin.getPlayerManager().getPlayerData(player.getUniqueId());
+        if(playerData == null){return;}
+        playerData.setMana(value);
     }
 }

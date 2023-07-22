@@ -33,7 +33,7 @@ public class loadPlayerData implements Listener {
                 playerData.setSkillXp(skill,config.getDouble("skills."+skill.name()+".xp",0.0d));
                 playerData.setSkillLevel(skill,config.getInt("skills."+skill.name()+".lvl",0));
             }
-            playerData.setMoney(config.getLong("money",0));
+            playerData.setMoney(config.getLong("money",100));
             plugin.getPlayerManager().addPlayerData(playerData);
             plugin.getCharacterStatsManager().updatePlayerCharacterStats(player);
         }catch (Exception ex) {

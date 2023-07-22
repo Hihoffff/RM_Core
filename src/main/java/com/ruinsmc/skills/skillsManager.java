@@ -39,8 +39,9 @@ public class skillsManager {
         PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
         if(playerData == null){return;}
         while((playerData.getSkillXp(skill) >= getXPforLevel(playerData.getSkillLevel(skill) + 1)) && (playerData.getSkillLevel(skill) < getMaxLevel())){
+            playerData.setSkillXp(skill,playerData.getSkillXp(skill)-getXPforLevel(playerData.getSkillLevel(skill)+1));
             playerData.setSkillLevel(skill,playerData.getSkillLevel(skill)+1);
-            player.sendMessage("New lvl! "+skill+": "+(playerData.getSkillLevel(skill)));
+            player.sendMessage("Новый уровень навыка! "+skill+": "+(playerData.getSkillLevel(skill)));
             plugin.getCharacterStatsManager().updatePlayerCharacterStats(player);
         }
     }
@@ -50,12 +51,11 @@ public class skillsManager {
     }
     public void addSkillXp(Player player,Skill skill,double amount){
         PlayerData playerData = plugin.getPlayerManager().getPlayerData(player.getUniqueId());
-        if(playerData != null){
-            plugin.getActionBar().sendSkillXpToActionBar(player,skill,amount);
-            playerData.addSkillXp(skill,amount);
-            CheckSkillLvl(player,skill);
-            //plugin.getServer().getPluginManager().callEvent(new XpGainEvent(player, skill,amount));
-        }
+        if(playerData == null){return;}
+        plugin.getActionBar().sendSkillXpToActionBar(player,skill,amount);
+        playerData.addSkillXp(skill,amount);
+        CheckSkillLvl(player,skill);
+        //plugin.getServer().getPluginManager().callEvent(new XpGainEvent(player, skill,amount));
     }
     public double getXPforLevel(Integer level){
         if(level > getMaxLevel()){

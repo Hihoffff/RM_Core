@@ -22,6 +22,9 @@ public class PlayerData {
     private final  HashMap<Stat,Double> characterStats;
     private double curMana;
 
+    private int PlayerLvL;
+    private double PlayerLvlXP;
+
 
     public PlayerData(Player player, RM_Core plugin){
         this.player = player;
@@ -32,7 +35,9 @@ public class PlayerData {
         this.toolStats = new HashMap<>();
         this.curMana = plugin.getConfig().getDouble("player.baseMana");
         this.characterStats = new HashMap<>();
-        this.money = 0;
+        this.money = 100;
+        this.PlayerLvL = 0;
+        this.PlayerLvlXP = 0.0d;
     }
     public RM_Core getPlugin(){
         return plugin;
@@ -77,5 +82,17 @@ public class PlayerData {
     }
     public void setMoney(Long money){
         this.money = money;
+    }
+    public int getPlayerLvL(){
+        return this.PlayerLvL;
+    }
+    public void setPlayerLvL(Integer value){
+        this.PlayerLvL = value;
+    }
+    public double getPlayerLvLXP(){
+        return this.PlayerLvlXP;
+    }
+    public void setPlayerLvlXP(Double value){
+        this.PlayerLvlXP = value;
     }
 }

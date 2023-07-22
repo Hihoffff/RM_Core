@@ -40,7 +40,7 @@ public class ScoreBoardManager implements Listener {
             if(playerData == null){return;}
             sideScoreBoard scoreBoard = sideScoreBoard.getByPlayer(player);
             scoreBoard.setSlot(2,"&fМонет: &e"+playerData.getMoney());
-            scoreBoard.setSlot(4,"&fУровень персонажа: &71");
+            scoreBoard.setSlot(4,"&fУровень персонажа: &7"+playerData.getPlayerLvL());
         }
     }
     private void createSideScoreBord(Player player){

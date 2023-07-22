@@ -1,5 +1,5 @@
 name: RM_Core
-version: '0.1'
+version: '0.2'
 main: com.ruinsmc.RM_Core
 api-version: 1.18
 authors: [ hihoffff ]
@@ -7,6 +7,8 @@ depend:
   - NBTAPI
 commands:
   admin:
-    usage: /admin
+    usage: /admin give item {Название предмета}
   menu:
-    usage: /menu
+    usage: /menu (открывает главное меню)
+  skills:
+    usage: /skills (открывает меню навыков)

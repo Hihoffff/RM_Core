@@ -13,6 +13,11 @@ public class playerCommands implements CommandExecutor {
 
     public playerCommands(RM_Core plugin){
         this.plugin = plugin;
+        plugin.getLogger().info("Registering commands....");
+        plugin.getCommand("admin").setExecutor(this);
+        plugin.getCommand("menu").setExecutor(this);
+        plugin.getCommand("skills").setExecutor(this);
+        plugin.getLogger().info("Commands registered!");
     }
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender.isOp()){
@@ -31,14 +36,21 @@ public class playerCommands implements CommandExecutor {
                             return false;
                         }
                     }
+                    return false;
                 }
 
             }
-            return true;
         }
         if(sender instanceof Player){
             Player player = (Player) sender;
-
+            if(command.getName().equalsIgnoreCase("menu")){
+                plugin.getMenusManager().getMainMenu().open(player);
+                return true;
+            }
+            else if(command.getName().equalsIgnoreCase("skills")){
+                plugin.getMenusManager().getSkillsMenu().open(player);
+                return true;
+            }
             return true;
         }
         return true;
