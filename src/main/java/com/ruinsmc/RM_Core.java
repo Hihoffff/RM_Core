@@ -3,6 +3,7 @@ package com.ruinsmc;
 import com.ruinsmc.ActionBar.ActionBar;
 import com.ruinsmc.Proxy.ProxyManager;
 import com.ruinsmc.Utils.Utils;
+import com.ruinsmc.announcements.AnnouncementManager;
 import com.ruinsmc.commands.playerCommands;
 import com.ruinsmc.data.PlayerManager;
 import com.ruinsmc.events.FoodLevelChanged;
@@ -47,7 +48,7 @@ public final class RM_Core extends JavaPlugin {
     private playerCommands playerCommands;
     private menusManager menusManager;
     private ProxyManager proxyManager;
-
+    private AnnouncementManager announcementManager;
 
     @Override
     public void onEnable() {
@@ -71,6 +72,7 @@ public final class RM_Core extends JavaPlugin {
         this.playerCommands = new playerCommands(this);
         this.menusManager = new menusManager(this);
         this.proxyManager = new ProxyManager(this);
+        this.announcementManager = new AnnouncementManager(this);
 
         registerEvents();
         getLogger().info("RM_Core enabled!");
@@ -133,5 +135,8 @@ public final class RM_Core extends JavaPlugin {
     }
     public ProxyManager getProxyManager(){
         return this.proxyManager;
+    }
+    public AnnouncementManager getAnnouncementManager(){
+        return this.announcementManager;
     }
 }

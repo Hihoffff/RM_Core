@@ -15,6 +15,7 @@ public class skillsManager {
     private final RM_Core plugin;
     private final Map<String, Skill> registeredSkills; //all registered skills
     private final Integer[] XPforLevel; //how many xp player need to get new lvl
+    private final int maxLVL;
     public skillsManager(RM_Core plugin){
         this.plugin = plugin;
         this.registeredSkills = new HashMap<>();
@@ -33,6 +34,7 @@ public class skillsManager {
             }
             this.XPforLevel[lvl - 1] = xp;
         }
+        this.maxLVL = this.XPforLevel.length;
     }
 
     public void CheckSkillLvl(Player player, Skill skill){ //check if new lvl
@@ -41,7 +43,7 @@ public class skillsManager {
         while((playerData.getSkillXp(skill) >= getXPforLevel(playerData.getSkillLevel(skill) + 1)) && (playerData.getSkillLevel(skill) < getMaxLevel())){
             playerData.setSkillXp(skill,playerData.getSkillXp(skill)-getXPforLevel(playerData.getSkillLevel(skill)+1));
             playerData.setSkillLevel(skill,playerData.getSkillLevel(skill)+1);
-            player.sendMessage("Новый уровень навыка! "+skill+": "+(playerData.getSkillLevel(skill)));
+            plugin.getAnnouncementManager().sendPlayerGotNewSkillLvl(player,skill,playerData.getSkillLevel(skill));
             plugin.getCharacterStatsManager().updatePlayerCharacterStats(player);
         }
     }
@@ -64,6 +66,6 @@ public class skillsManager {
         return this.XPforLevel[level-1];
     }
     public Integer getMaxLevel(){
-        return this.XPforLevel.length;
+        return this.maxLVL;
     }
 }

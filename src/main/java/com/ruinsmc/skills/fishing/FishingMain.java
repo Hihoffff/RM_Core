@@ -1,7 +1,6 @@
 package com.ruinsmc.skills.fishing;
 
 import com.ruinsmc.RM_Core;
-import com.ruinsmc.customevents.XpGainEvent;
 import com.ruinsmc.skills.Skill;
 import com.ruinsmc.skills.Skills;
 import org.bukkit.entity.Item;

@@ -24,6 +24,7 @@ public class ActionBar implements Listener {
     public ActionBar(RM_Core plugin){
         this.plugin = plugin;
         startActionBarUpdate();
+        plugin.getServer().getPluginManager().registerEvents(this,plugin);
     }
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e){
